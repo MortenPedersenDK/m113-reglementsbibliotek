@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .m113-silhouette { fill: #2c3e50; }
+    </style>
+  </defs>
+  
+  <!-- M113 A1 Silhouette from side view -->
+  <g class="m113-silhouette">
+    <!-- Main hull -->
+    <path d="M4 18 L6 16 L8 15 L24 15 L26 16 L28 18 L28 24 L4 24 Z"/>
+    
+    <!-- Front slope -->
+    <path d="M8 15 L10 12 L12 11 L14 11 L16 12 L18 13 L20 14 L24 15"/>
+    
+    <!-- Commander's cupola -->
+    <rect x="14" y="9" width="6" height="4" rx="1"/>
+    
+    <!-- Track/wheel area -->
+    <rect x="5" y="22" width="22" height="3" rx="1"/>
+    
+    <!-- Road wheels (simplified) -->
+    <circle cx="8" cy="23" r="1.5"/>
+    <circle cx="12" cy="23" r="1.5"/>
+    <circle cx="16" cy="23" r="1.5"/>
+    <circle cx="20" cy="23" r="1.5"/>
+    <circle cx="24" cy="23" r="1.5"/>
+    
+    <!-- Drive sprocket -->
+    <circle cx="26" cy="23" r="1.5"/>
+    
+    <!-- Idler wheel -->
+    <circle cx="6" cy="23" r="1.5"/>
+    
+    <!-- Rear ramp -->
+    <path d="M24 15 L28 16 L28 18 L26 20 L24 20"/>
+    
+    <!-- Side details -->
+    <rect x="10" y="16" width="2" height="2"/>
+    <rect x="14" y="16" width="2" height="2"/>
+    <rect x="18" y="16" width="2" height="2"/>
+  </g>
+</svg>

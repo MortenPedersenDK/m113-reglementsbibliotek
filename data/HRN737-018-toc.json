@@ -1,0 +1,19 @@
+{
+  "chapters": {
+    "section_1": {
+      "name": "HRN 737-018",
+      "sections": [],
+      "firstPage": "01"
+    },
+    "section_2": {
+      "name": "2. KAPITEL",
+      "sections": [],
+      "firstPage": "11"
+    },
+    "section_3": {
+      "name": "3. KAPITEL",
+      "sections": [],
+      "firstPage": "21"
+    }
+  }
+}

@@ -1,0 +1,918 @@
+{
+  "chapters": {
+    "1": {
+      "name": "1. PMV data",
+      "sections": [
+        {
+          "number": "101",
+          "name": "Generelt",
+          "filename": "HRN113_1-01"
+        },
+        {
+          "number": "102",
+          "name": "Almindeligt",
+          "filename": "HRN113_1-02"
+        },
+        {
+          "number": "103",
+          "name": "Data",
+          "filename": "HRN113_1-02"
+        },
+        {
+          "number": "104",
+          "name": "PMV forende",
+          "filename": "HRN113_1-03"
+        },
+        {
+          "number": "105",
+          "name": "PMV bagende",
+          "filename": "HRN113_1-11"
+        },
+        {
+          "number": "106",
+          "name": "PMV dæk",
+          "filename": "HRN113_1-14"
+        },
+        {
+          "number": "107",
+          "name": "PMV bund",
+          "filename": "HRN113_1-15"
+        }
+      ],
+      "firstPage": "1-01"
+    },
+    "2": {
+      "name": "2. Kørerrum",
+      "sections": [
+        {
+          "number": "201",
+          "name": "Almindeligt",
+          "filename": "HRN113_2-01"
+        },
+        {
+          "number": "202",
+          "name": "Kørerluge",
+          "filename": "HRN113_2-02"
+        },
+        {
+          "number": "203",
+          "name": "Kørerperiskoper",
+          "filename": "HRN113_2-05"
+        },
+        {
+          "number": "204",
+          "name": "Instrumentpanel",
+          "filename": "HRN113_2-08"
+        },
+        {
+          "number": "206",
+          "name": "Elektronikboks",
+          "filename": "HRN113_2-19"
+        },
+        {
+          "number": "207",
+          "name": "Styretøjet",
+          "filename": "HRN113_2-22"
+        },
+        {
+          "number": "208",
+          "name": "Gearvælger",
+          "filename": "HRN113_2-25"
+        },
+        {
+          "number": "209",
+          "name": "Parkeringsbremsen",
+          "filename": "HRN113_2-30"
+        },
+        {
+          "number": "210",
+          "name": "Driftsbremsen",
+          "filename": "HRN113_2-30"
+        },
+        {
+          "number": "211",
+          "name": "Speederpedal",
+          "filename": "HRN113_2-30"
+        },
+        {
+          "number": "212",
+          "name": "Varmeapparat",
+          "filename": "HRN113_2-32"
+        },
+        {
+          "number": "213",
+          "name": "Betjeningsgreb for rampemekanisme",
+          "filename": "HRN113_2-32"
+        },
+        {
+          "number": "214",
+          "name": "Kørersæde",
+          "filename": "HRN113_2-32"
+        }
+      ],
+      "firstPage": "2-01"
+    },
+    "3": {
+      "name": "3. Mandskabs- og lastrum",
+      "sections": [
+        {
+          "number": "301",
+          "name": "Generelt",
+          "filename": "HRN113_3-01"
+        },
+        {
+          "number": "302",
+          "name": "Varmeanlægget",
+          "filename": "HRN113_3-03"
+        },
+        {
+          "number": "303",
+          "name": "Vognkommandørsæde og -platform",
+          "filename": "HRN113_3-08"
+        },
+        {
+          "number": "304",
+          "name": "Vognkommandørens kuppel",
+          "filename": "HRN113_3-12"
+        },
+        {
+          "number": "305",
+          "name": "Vognkommandørluge",
+          "filename": "HRN113_3-13"
+        },
+        {
+          "number": "306",
+          "name": "Lastelugen",
+          "filename": "HRN113_3-15"
+        },
+        {
+          "number": "307",
+          "name": "Ventilationsåbning",
+          "filename": "HRN113_3-17"
+        },
+        {
+          "number": "308",
+          "name": "Mandskabssæder",
+          "filename": "HRN113_3-17"
+        },
+        {
+          "number": "309",
+          "name": "Bundplader",
+          "filename": "HRN113_3-18"
+        },
+        {
+          "number": "310",
+          "name": "Rampe og rampedør",
+          "filename": "HRN113_3-20"
+        }
+      ],
+      "firstPage": "3-01"
+    },
+    "4": {
+      "name": "4. Motorrum",
+      "sections": [
+        {
+          "number": "401",
+          "name": "Almindeligt",
+          "filename": "HRN113_4-01"
+        },
+        {
+          "number": "402",
+          "name": "Almindeligt",
+          "filename": "HRN113_4-06"
+        },
+        {
+          "number": "403",
+          "name": "Smøresystem",
+          "filename": "HRN113_4-06"
+        },
+        {
+          "number": "404",
+          "name": "Kølesystemet",
+          "filename": "HRN113_4-10"
+        },
+        {
+          "number": "405",
+          "name": "Brændstofsystemet",
+          "filename": "HRN113_4-18"
+        },
+        {
+          "number": "406",
+          "name": "Indsugningssystemet",
+          "filename": "HRN113_4-24"
+        },
+        {
+          "number": "407",
+          "name": "Udstødningssystemet",
+          "filename": "HRN113_4-27"
+        },
+        {
+          "number": "408",
+          "name": "Startsystemet",
+          "filename": "HRN113_4-29"
+        },
+        {
+          "number": "409",
+          "name": "Forvarmersystemet",
+          "filename": "HRN113_4-31"
+        },
+        {
+          "number": "410",
+          "name": "Ladesystemet",
+          "filename": "HRN113_4-33"
+        },
+        {
+          "number": "411",
+          "name": "Almindeligt",
+          "filename": "HRN113_4-37"
+        },
+        {
+          "number": "412",
+          "name": "Driftbremsen",
+          "filename": "HRN113_4-37"
+        },
+        {
+          "number": "413",
+          "name": "Parkeringsbremsen",
+          "filename": "HRN113_4-43"
+        },
+        {
+          "number": "414",
+          "name": "Almindeligt",
+          "filename": "HRN113_4-46"
+        },
+        {
+          "number": "415",
+          "name": "Transmission",
+          "filename": "HRN113_4-47"
+        },
+        {
+          "number": "416",
+          "name": "Styretøj",
+          "filename": "HRN113_4-50"
+        },
+        {
+          "number": "417",
+          "name": "Slutdrev",
+          "filename": "HRN113_4-53"
+        }
+      ],
+      "firstPage": "4-01"
+    },
+    "5": {
+      "name": "5. Undervogn",
+      "sections": [
+        {
+          "number": "501",
+          "name": "Almindeligt",
+          "filename": "HRN113_5-01"
+        },
+        {
+          "number": "502",
+          "name": "Bælteskærme",
+          "filename": "HRN113_5-02"
+        },
+        {
+          "number": "503",
+          "name": "Generelt",
+          "filename": "HRN113_5-03"
+        },
+        {
+          "number": "504",
+          "name": "Beskrivelse",
+          "filename": "HRN113_5-04"
+        },
+        {
+          "number": "505",
+          "name": "Samling af nye bælter",
+          "filename": "HRN113_5-06"
+        },
+        {
+          "number": "506",
+          "name": "Trædepuder",
+          "filename": "HRN113_5-10"
+        },
+        {
+          "number": "507",
+          "name": "Anvendelse af snekryds",
+          "filename": "HRN113_5-12"
+        },
+        {
+          "number": "509",
+          "name": "Afmontering af bælter",
+          "filename": "HRN113_5-15"
+        },
+        {
+          "number": "510",
+          "name": "Montering og samling af bælte",
+          "filename": "HRN113_5-16"
+        },
+        {
+          "number": "511",
+          "name": "Bæltespænding",
+          "filename": "HRN113_5-20"
+        },
+        {
+          "number": "512",
+          "name": "Kontrol efter samling af bælte",
+          "filename": "HRN113_5-23"
+        },
+        {
+          "number": "513",
+          "name": "Kontrol af bælter",
+          "filename": "HRN113_5-24"
+        },
+        {
+          "number": "514",
+          "name": "Slidgrænser på bæltet",
+          "filename": "HRN113_5-24"
+        },
+        {
+          "number": "515",
+          "name": "Generelt",
+          "filename": "HRN113_5-26"
+        },
+        {
+          "number": "516",
+          "name": "Vejhjul",
+          "filename": "HRN113_5-26"
+        },
+        {
+          "number": "517",
+          "name": "Slidgrænser for vejhjul",
+          "filename": "HRN113_5-27"
+        },
+        {
+          "number": "519",
+          "name": "Vejhjulslejer",
+          "filename": "HRN113_5-30"
+        },
+        {
+          "number": "520",
+          "name": "Affjedringsarm",
+          "filename": "HRN113_5-30"
+        },
+        {
+          "number": "521",
+          "name": "Torsionsstænger",
+          "filename": "HRN113_5-32"
+        },
+        {
+          "number": "522",
+          "name": "Støddæmpere",
+          "filename": "HRN113_5-33"
+        },
+        {
+          "number": "523",
+          "name": "Beskrivelse",
+          "filename": "HRN113_5-34"
+        },
+        {
+          "number": "524",
+          "name": "Vedligeholdelse",
+          "filename": "HRN113_5-35"
+        },
+        {
+          "number": "525",
+          "name": "Generelt",
+          "filename": "HRN113_5-40"
+        },
+        {
+          "number": "526",
+          "name": "Vedligeholdelse",
+          "filename": "HRN113_5-41"
+        },
+        {
+          "number": "527",
+          "name": "Registrering af vedligeholdelsesarbejder på undervogn",
+          "filename": "HRN113_5-44"
+        }
+      ],
+      "firstPage": "5-01"
+    },
+    "6": {
+      "name": "6. Elektriske anlæg og hjælpesystemer",
+      "sections": [
+        {
+          "number": "601",
+          "name": "Generelt",
+          "filename": "HRN113_6-01"
+        },
+        {
+          "number": "602",
+          "name": "Indvendige lamper",
+          "filename": "HRN113_6-02"
+        },
+        {
+          "number": "603",
+          "name": "Generelt",
+          "filename": "HRN113_6-04"
+        },
+        {
+          "number": "604",
+          "name": "Ildslukningsanlæg",
+          "filename": "HRN113_6-04"
+        },
+        {
+          "number": "605",
+          "name": "Lænsepumper",
+          "filename": "HRN113_6-09"
+        }
+      ],
+      "firstPage": "6-01"
+    },
+    "7": {
+      "name": "7. kørsel",
+      "sections": [
+        {
+          "number": "702",
+          "name": "Opvarmning af motor /transmission",
+          "filename": "HRN113_7-03"
+        },
+        {
+          "number": "703",
+          "name": "Start i koldt vejr",
+          "filename": "HRN113_7-03"
+        },
+        {
+          "number": "706",
+          "name": "Igangslæbning",
+          "filename": "HRN113_7-05"
+        },
+        {
+          "number": "707",
+          "name": "Stop af motor",
+          "filename": "HRN113_7-06"
+        },
+        {
+          "number": "713",
+          "name": "Kørsel ved hjælp af nøddrift",
+          "filename": "HRN113_7-09"
+        },
+        {
+          "number": "714",
+          "name": "Kørsel ved hjælp af nødgearskift",
+          "filename": "HRN113_7-10"
+        },
+        {
+          "number": "715",
+          "name": "Kørsel under ekstremt varme forhold",
+          "filename": "HRN113_7-13"
+        },
+        {
+          "number": "716",
+          "name": "Kørsel under ekstremt kolde forhold",
+          "filename": "HRN113_7-13"
+        },
+        {
+          "number": "717",
+          "name": "Bremsning",
+          "filename": "HRN113_7-14"
+        },
+        {
+          "number": "718",
+          "name": "Styring",
+          "filename": "HRN113_7-16"
+        },
+        {
+          "number": "720",
+          "name": "Gearskift",
+          "filename": "HRN113_7-19"
+        },
+        {
+          "number": "721",
+          "name": "Slæbning",
+          "filename": "HRN113_7-19"
+        },
+        {
+          "number": "722",
+          "name": "Bugsering",
+          "filename": "HRN113_7-20"
+        }
+      ],
+      "firstPage": "7-01"
+    },
+    "A": {
+      "name": "Tillæg A Oversigt Af Div. Data, Tekniske Specifikationer M.V.",
+      "sections": [
+        {
+          "number": "A01",
+          "name": "PMV M113",
+          "filename": "HRN113_A-01"
+        },
+        {
+          "number": "A02",
+          "name": "PMV M113A1",
+          "filename": "HRN113_A-03"
+        },
+        {
+          "number": "A03",
+          "name": "Afsnit A03",
+          "filename": "HRN113_A-04"
+        },
+        {
+          "number": "A04",
+          "name": "Afsnit A04",
+          "filename": "HRN113_A-06"
+        },
+        {
+          "number": "A05",
+          "name": "PNMK M/92",
+          "filename": "HRN113_A-08"
+        },
+        {
+          "number": "A06",
+          "name": "Afsnit A06",
+          "filename": "HRN113_A-09"
+        }
+      ],
+      "firstPage": "A-01"
+    },
+    "B": {
+      "name": "Tillæg B PMV Benzin",
+      "sections": [
+        {
+          "number": "B01",
+          "name": "Generelt",
+          "filename": "HRN113_B-1"
+        }
+      ],
+      "firstPage": "B-1"
+    },
+    "C": {
+      "name": "Tillæg C Gummibælte",
+      "sections": [],
+      "firstPage": "C-01"
+    },
+    "D": {
+      "name": "Tillæg D Natkøreperiskoper",
+      "sections": [
+        {
+          "number": "D01",
+          "name": "Almindeligt",
+          "filename": "HRN113_D-01"
+        },
+        {
+          "number": "D02",
+          "name": "Virkemåde",
+          "filename": "HRN113_D-01"
+        },
+        {
+          "number": "D03",
+          "name": "Beskrivelse",
+          "filename": "HRN113_D-02"
+        },
+        {
+          "number": "D04",
+          "name": "Kontrolorganer",
+          "filename": "HRN113_D-04"
+        },
+        {
+          "number": "D05",
+          "name": "Data",
+          "filename": "HRN113_D-04"
+        },
+        {
+          "number": "D06",
+          "name": "Afsnit D06",
+          "filename": "HRN113_D-05"
+        },
+        {
+          "number": "D07",
+          "name": "Afsnit D07",
+          "filename": "HRN113_D-05"
+        },
+        {
+          "number": "D08",
+          "name": "Vedligeholdelse",
+          "filename": "HRN113_D-06"
+        },
+        {
+          "number": "D09",
+          "name": "Beskrivelse",
+          "filename": "HRN113_D-07"
+        },
+        {
+          "number": "D10",
+          "name": "Data",
+          "filename": "HRN113_D-07"
+        },
+        {
+          "number": "D12",
+          "name": "Afmontering af natkøreperiskop M/97",
+          "filename": "HRN113_D-09"
+        },
+        {
+          "number": "D13",
+          "name": "Vedligeholdelse af natkøreperiskop M/97",
+          "filename": "HRN113_D-10"
+        }
+      ],
+      "firstPage": "D-01"
+    },
+    "E": {
+      "name": "Tillæg E Bæltesprængning",
+      "sections": [
+        {
+          "number": "E01",
+          "name": "Generelt",
+          "filename": "HRN113_E-1"
+        },
+        {
+          "number": "E02",
+          "name": "Anbringelse af sprængskæreladning",
+          "filename": "HRN113_E-1"
+        },
+        {
+          "number": "E03",
+          "name": "Sikkerhedsbestemmelser",
+          "filename": "HRN113_E-1"
+        }
+      ],
+      "firstPage": "E-1"
+    },
+    "F": {
+      "name": "Tillæg F Mørklægningspositionslygter",
+      "sections": [],
+      "firstPage": "F-1"
+    },
+    "G": {
+      "name": "Tillæg G 76 MM Røggranatkaster",
+      "sections": [
+        {
+          "number": "G02",
+          "name": "Virkemåde",
+          "filename": "HRN113_G-3"
+        },
+        {
+          "number": "G03",
+          "name": "Betjening",
+          "filename": "HRN113_G-3"
+        },
+        {
+          "number": "G04",
+          "name": "Afhjælpning af funktioneringsfejl",
+          "filename": "HRN113_G-4"
+        },
+        {
+          "number": "G05",
+          "name": "Funktionskontrol",
+          "filename": "HRN113_G-4"
+        },
+        {
+          "number": "G06",
+          "name": "Vedligeholdelse",
+          "filename": "HRN113_G-4"
+        }
+      ],
+      "firstPage": "G-1"
+    },
+    "H": {
+      "name": "Tillæg H Natbrille M92/",
+      "sections": [
+        {
+          "number": "H01",
+          "name": "Generelt",
+          "filename": "HRN113_H-1"
+        },
+        {
+          "number": "H02",
+          "name": "Beskrivelse",
+          "filename": "HRN113_H-1"
+        },
+        {
+          "number": "H03",
+          "name": "Data",
+          "filename": "HRN113_H-3"
+        },
+        {
+          "number": "H04",
+          "name": "Funktionering",
+          "filename": "HRN113_H-4"
+        },
+        {
+          "number": "H05",
+          "name": "Betjening",
+          "filename": "HRN113_H-4"
+        },
+        {
+          "number": "H06",
+          "name": "Vedligeholdelse",
+          "filename": "HRN113_H-5"
+        }
+      ],
+      "firstPage": "H-1"
+    },
+    "I": {
+      "name": "Tillæg I Forskelle Mellem PMV M113 G3 Og PMV M113 G4",
+      "sections": [
+        {
+          "number": "1.1",
+          "name": "GENERELT",
+          "filename": "HRN113_I-01"
+        },
+        {
+          "number": "1.1.1",
+          "name": "Chassis:",
+          "filename": "HRN113_I-01"
+        },
+        {
+          "number": "1.1.2",
+          "name": "Kører- og mandskabsrum:",
+          "filename": "HRN113_I-01"
+        },
+        {
+          "number": "1.1.3",
+          "name": "Motorrum og drivlinie:",
+          "filename": "HRN113_I-01"
+        },
+        {
+          "number": "1.1.4",
+          "name": "Hjælpesystemer:",
+          "filename": "HRN113_I-02"
+        },
+        {
+          "number": "1.2",
+          "name": "CHASSIS",
+          "filename": "HRN113_I-02"
+        },
+        {
+          "number": "1.2.1",
+          "name": "Hæk bagagebærer og kasser",
+          "filename": "HRN113_I-02"
+        },
+        {
+          "number": "1.2.2",
+          "name": "Holder for 12.7 mm. vekselpibe",
+          "filename": "HRN113_I-04"
+        },
+        {
+          "number": "1.2.3",
+          "name": "Beslag for pumpeantenne",
+          "filename": "HRN113_I-04"
+        },
+        {
+          "number": "1.2.4",
+          "name": "Beslag for køleboks",
+          "filename": "HRN113_I-06"
+        },
+        {
+          "number": "1.2.5",
+          "name": "Strømudtag for minerulle SPARK Il",
+          "filename": "HRN113_I-07"
+        },
+        {
+          "number": "1.2.6",
+          "name": "Adapterplade for minerulle SPARK Il",
+          "filename": "HRN113_I-07"
+        },
+        {
+          "number": "1.2.7",
+          "name": "Sikring af lasteluge",
+          "filename": "HRN113_I-08"
+        },
+        {
+          "number": "1.3",
+          "name": "KØRER- OG MANDSKABSRUM",
+          "filename": "HRN113_I-09"
+        },
+        {
+          "number": "1.3.1",
+          "name": "Kørersæde",
+          "filename": "HRN113_I-09"
+        },
+        {
+          "number": "1.3.2",
+          "name": "Op-/nedblændingskontakt",
+          "filename": "HRN113_I-13"
+        },
+        {
+          "number": "1.3.3",
+          "name": "Speederpedal",
+          "filename": "HRN113_I-13"
+        },
+        {
+          "number": "1.3.4",
+          "name": "Chokabsorber for venstre fod",
+          "filename": "HRN113_I-14"
+        },
+        {
+          "number": "1.3.5",
+          "name": "Kommandørplatform og -sæde",
+          "filename": "HRN113_I-15"
+        },
+        {
+          "number": "1.3.6",
+          "name": "Mandskabssæder",
+          "filename": "HRN113_I-17"
+        },
+        {
+          "number": "1.3.7",
+          "name": "Justeret interiør",
+          "filename": "HRN113_I-19"
+        },
+        {
+          "number": "1.3.8",
+          "name": "Gulvplader",
+          "filename": "HRN113_I-19"
+        },
+        {
+          "number": "1.4",
+          "name": "MOTORRUM",
+          "filename": "HRN113_I-21"
+        },
+        {
+          "number": "1.4.1",
+          "name": "Bremsesystem",
+          "filename": "HRN113_I-21"
+        },
+        {
+          "number": "1.4.2",
+          "name": "Driftsbremse",
+          "filename": "HRN113_I-21"
+        },
+        {
+          "number": "1.4.3",
+          "name": "Parkeringsbremse (P-bremse)",
+          "filename": "HRN113_I-30"
+        },
+        {
+          "number": "1.5",
+          "name": "DRIVLINIE",
+          "filename": "HRN113_I-34"
+        },
+        {
+          "number": "1.5.1",
+          "name": "Slutdrev",
+          "filename": "HRN113_I-34"
+        },
+        {
+          "number": "1.6",
+          "name": "HJÆLPESYSTEMER",
+          "filename": "HRN113_I-35"
+        },
+        {
+          "number": "1.6.1",
+          "name": "Brandslukningssystemer",
+          "filename": "HRN113_I-35"
+        },
+        {
+          "number": "1.6.2",
+          "name": "Elektrisk kogekar",
+          "filename": "HRN113_I-45"
+        },
+        {
+          "number": "1.6.3",
+          "name": "Kørekamera",
+          "filename": "HRN113_I-49"
+        },
+        {
+          "number": "1.6.4",
+          "name": "Kompressor",
+          "filename": "HRN113_I-52"
+        },
+        {
+          "number": "1.6.5",
+          "name": "Batterialarm",
+          "filename": "HRN113_I-54"
+        },
+        {
+          "number": "1.6.6",
+          "name": "Lofts belysning i mandskabsrum",
+          "filename": "HRN113_I-56"
+        },
+        {
+          "number": "1.6.7",
+          "name": "AC enhed og Kølevest til køreren",
+          "filename": "HRN113_I-57"
+        },
+        {
+          "number": "1.6.8",
+          "name": "Tilkobling af ”FILLER” til ECM",
+          "filename": "HRN113_I-60"
+        },
+        {
+          "number": "1.6.9",
+          "name": "APU. Dalsted generator",
+          "filename": "HRN113_I-60"
+        },
+        {
+          "number": "1.6.10",
+          "name": "Ringaffutage M/08",
+          "filename": "HRN113_I-65"
+        },
+        {
+          "number": "1.6.11",
+          "name": "Seleknive",
+          "filename": "HRN113_I-75"
+        },
+        {
+          "number": "1.6.12",
+          "name": "Inverter 24 V — 220 V",
+          "filename": "HRN113_I-75"
+        }
+      ],
+      "firstPage": "I-01"
+    }
+  }
+}

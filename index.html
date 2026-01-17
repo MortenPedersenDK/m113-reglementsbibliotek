@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reglementsbibliotek - Pansermuseet</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="favicon-16x16.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/manual-styles.css">
+</head>
+<body class="index-page">
+    <div class="container">
+        <h1>PMV M113 Reglementsbibliotek</h1>
+        <p class="subtitle">Søgbare PMV M113 reglementer.</p>
+        
+        <div class="manuals-grid">
+            <a href="HRN113-001.html" class="manual-card">
+                <div class="manual-title">HRN 133-001</div>
+                <div class="manual-subtitle">Pansret mandskabsvogn af M113-familien</div>
+                <div class="manual-description">
+                    Reglement for PMV 113 familien, primært A1. 
+                </div>
+            </a>
+            
+            <a href="HRN113-002.html" class="manual-card">
+                <div class="manual-title">HRN 113-002</div>
+                <div class="manual-subtitle">PMV M113 G3/G4 DK</div>
+                <div class="manual-description">
+                    Reglement for PMV M113 G3/G4 DK. Se tillæg I for forskelle mellem G3 og G4.
+                </div>
+            </a>
+            
+            <a href="HRN737-012.html" class="manual-card">
+                <div class="manual-title">HRN 737-012</div>
+                <div class="manual-subtitle">PMV M113 G3 DK familien Eftersyn</div>
+                <div class="manual-description">
+                    Eftersynsreglement for PMV M113 G3 DK familien.
+                </div>
+            </a>
+            
+            <a href="HRN737-018.html" class="manual-card">
+                <div class="manual-title">HRN 737-018</div>
+                <div class="manual-subtitle">PMV M113 G4 DK familien Eftersyn</div>
+                <div class="manual-description">
+                    Eftersynsreglement for PMV M113 G4 DK familien.
+                </div>
+            </a>
+        </div>
+        
+        <div class="diverse-section">
+            <div class="diverse-card">
+                <div class="diverse-title">Diverse</div>
+                <a href="#" class="pdf-link" onclick="openPdfModal('pages/Syns-kontrolliste.pdf'); return false;">Syns-kontrolliste.pdf</a>
+            </div>
+        </div>
+        
+        <div class="usage-instructions">
+            <h3>Sådan bruges reglementerne</h3>
+            <p><strong>Navigation gennem sider:</strong></p>
+            <ul>
+                <li><strong>Tastatur:</strong> Brug piletasterne (← →) til at bladre frem og tilbage mellem sider</li>
+                <li><strong>Mus:</strong> Klik på pilene (‹ ›) i værktøjslinjen eller brug musehjulet når en side er åben</li>
+                <li><strong>Touch/tablet:</strong> Swipe til venstre eller højre på siden for at skifte sider</li>
+                <li><strong>Zoom på mobil:</strong> Brug knib-gestus (pinch) til at zoome ind på detaljer i dokumentet</li>
+            </ul>
+            <p><strong>Søgning:</strong> Brug søgefeltet til at finde specifikke ord eller udtryk i reglementet. Søgeresultater viser kontekst og leder direkte til den relevante side.</p>
+            <p><strong>Indholdsfortegnelse:</strong> Klik på menu-knappen (☰) for at åbne indholdsfortegnelsen og navigere direkte til ønskede kapitler og afsnit.</p>
+        </div>
+    </div>
+    
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="pdf-modal" style="display: none;">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <span class="pdf-modal-title">Syns-kontrolliste.pdf</span>
+                <button class="pdf-close-btn" onclick="closePdfModal()">&times;</button>
+            </div>
+            <iframe id="pdfIframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+    
+    <script>
+        function openPdfModal(pdfPath) {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            iframe.src = pdfPath;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePdfModal() {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            modal.style.display = 'none';
+            iframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('pdfModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePdfModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePdfModal();
+            }
+        });
+    </script>
+</body>
+</html>

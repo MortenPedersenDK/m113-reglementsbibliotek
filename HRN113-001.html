@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
+    <title>HRN 133-001 - Pansret mandskabsvogn af M113-familien</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="favicon-16x16.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/manual-styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation overlay for mobile -->
+        <div class="nav-overlay" id="navOverlay"></div>
+        
+        <!-- Main content -->
+        <div class="main-content" id="mainContent">
+            <div class="toolbar">
+                <button class="menu-btn" id="menuBtn">☰</button>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Søg i reglement..." 
+                           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">×</button>
+                    <div class="search-results-dropdown" id="searchResults" style="display: none;">
+                        <!-- Search results will be populated here -->
+                    </div>
+                </div>
+                <div class="nav-controls">
+                    <button class="nav-btn" id="prevBtn" disabled>‹</button>
+                    <button class="nav-btn" id="nextBtn" disabled>›</button>
+                </div>
+            </div>
+            
+            <!-- Navigation dropdown -->
+            <div class="nav-dropdown" id="navDropdown" style="display: none;">
+                <div class="nav-dropdown-header">
+                    <div class="nav-dropdown-title">HRN 133-001 Manual</div>
+                </div>
+                <div class="toc-container" id="tocContainer">
+                    <!-- Table of contents will be populated here -->
+                </div>
+            </div>
+            
+            <div class="page-info-bar">
+                <div class="page-info" id="pageInfo">Vælg en side fra menuen</div>
+            </div>
+            
+            <div class="content-area" id="contentArea" tabindex="0">
+                <div class="welcome-message">
+                    <div class="welcome-title">HRN 133-001</div>
+                    <p class="subtitle-large">Pansret mandskabsvogn af M113-familien</p>
+                    <p style="padding-top: 20px;"><em>Vælg et kapitel eller afsnit fra menuen, eller søg på specifikke ord for at begynde</em></p>
+                    <div class="usage-instructions-inline">
+                        <h4>Sådan navigeres i reglementet:</h4>
+                        <p><strong>Navigation gennem sider:</strong></p>
+                        <ul>
+                            <li><strong>Tastatur:</strong> Brug piletasterne (← →) til at bladre frem og tilbage mellem sider</li>
+                            <li><strong>Mus:</strong> Klik på pilene (‹ ›) i værktøjslinjen eller brug musehjulet når en side er åben</li>
+                            <li><strong>Touch/tablet:</strong> Swipe til venstre eller højre på siden for at skifte sider</li>
+                            <li><strong>Zoom på mobil:</strong> Brug knib-gestus (pinch) til at zoome ind på detaljer i dokumentet</li>
+                        </ul>
+                        <p><strong>Søgning:</strong> Brug søgefeltet til at finde specifikke ord eller udtryk i reglementet. Søgeresultater viser kontekst og leder direkte til den relevante side.</p>
+                        <p><strong>Indholdsfortegnelse:</strong> Klik på menu-knappen (☰) for at åbne indholdsfortegnelsen og navigere direkte til ønskede kapitler og afsnit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration for this manual
+        window.MANUAL_CONFIG = {
+            searchIndexUrl: 'data/HRN113-001-search-index.json',
+            tocUrl: 'data/HRN113-001-toc.json',
+            manualId: 'HRN113-001',
+            title: 'HRN 133-001 - Pansret mandskabsvogn af M113-familien'
+        };
+    </script>
+    <script src="js/app.js"></script>
+</body>
+</html>
