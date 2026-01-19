@@ -541,7 +541,58 @@
     },
     "C": {
       "name": "Tillæg C Gummibælte",
-      "sections": [],
+      "sections": [
+        {
+          "number": "C01",
+          "name": "Beskrivelse",
+          "filename": "HRN113_C-01"
+        },
+        {
+          "number": "C02",
+          "name": "Virkemåde",
+          "filename": "HRN113_C-01"
+        },
+        {
+          "number": "C03",
+          "name": "Data",
+          "filename": "HRN113_C-02"
+        },
+        {
+          "number": "C04",
+          "name": "Drivhjul",
+          "filename": "HRN113_C-03"
+        },
+        {
+          "number": "C05",
+          "name": "Justerhjul",
+          "filename": "HRN113_C-05"
+        },
+        {
+          "number": "C06",
+          "name": "Løberuller",
+          "filename": "HRN113_C-06"
+        },
+        {
+          "number": "C07",
+          "name": "Gummibælte",
+          "filename": "HRN113_C-14"
+        },
+        {
+          "number": "C08",
+          "name": "Fedt-/gasjustercylinder",
+          "filename": "HRN113_C-34"
+        },
+        {
+          "number": "C09",
+          "name": "Montering af sne-/mudderskrabersæt",
+          "filename": "HRN113_C-36"
+        },
+        {
+          "number": "C10",
+          "name": "Terræn- / snekæder",
+          "filename": "HRN113_C-43"
+        }
+      ],
       "firstPage": "C-01"
     },
     "D": {
