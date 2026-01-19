@@ -684,7 +684,18 @@
     },
     "F": {
       "name": "Tillæg F Mørklægningspositionslygter",
-      "sections": [],
+      "sections": [
+        {
+          "number": "F01",
+          "name": "Forreste mørklægningspositionslygter",
+          "filename": "HRN113_F-1"
+        },
+        {
+          "number": "F02",
+          "name": "Bagerste mørklægningspositionslygter",
+          "filename": "HRN113_F-2"
+        }
+      ],
       "firstPage": "F-1"
     },
     "G": {
