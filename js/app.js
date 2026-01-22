@@ -300,6 +300,17 @@ class ManualViewer {
         const sectionsContainer = document.getElementById(`chapter-${chapterKey}`);
         if (!sectionsContainer) return;
         
+        // Check if this chapter has sections
+        const chapter = this.tocData?.chapters?.[chapterKey];
+        if (!chapter || !chapter.sections || chapter.sections.length === 0) {
+            // No sections - navigate directly to first page
+            const firstPageId = this.findPageId(chapter.firstPage || `${chapterKey}-01`);
+            if (firstPageId !== null) {
+                this.navigateToPage(firstPageId);
+            }
+            return;
+        }
+        
         const isCurrentlyOpen = sectionsContainer.style.display === 'block';
         
         // First collapse all chapters
@@ -365,8 +376,14 @@ class ManualViewer {
     findPageId(filename) {
         if (!filename) return 0;
         
+        // Handle both full filename format (HRN113_X-Y) and short format (X-Y)
+        let searchFilename = filename;
+        if (!filename.startsWith('HRN113_')) {
+            searchFilename = `HRN113_${filename}`;
+        }
+        
         // Extract chapter and page from filename
-        const match = filename.match(/HRN113_(.+)-(.+)/);
+        const match = searchFilename.match(/HRN113_(.+)-(.+)/);
         if (!match) return 0;
         
         const chapter = match[1];

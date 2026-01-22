@@ -520,12 +520,134 @@
     },
     "B": {
       "name": "Tillæg B Rpg-Beskyttelse Lasso System",
-      "sections": [],
+      "sections": [
+        {
+          "number": "B1",
+          "name": "GENERELT",
+          "filename": "HRN113_B-01"
+        },
+        {
+          "number": "B2",
+          "name": "VIRKEMÅDE",
+          "filename": "HRN113_B-02"
+        },
+        {
+          "number": "B3",
+          "name": "DATA",
+          "filename": "HRN113_B-02"
+        },
+        {
+          "number": "B4",
+          "name": "BESKRIVELSE",
+          "filename": "HRN113_B-03"
+        },
+        {
+          "number": "B5",
+          "name": "MONTERING",
+          "filename": "HRN113_B-07"
+        },
+        {
+          "number": "B6",
+          "name": "AFMONTERING",
+          "filename": "HRN113_B-15"
+        },
+        {
+          "number": "B7",
+          "name": "UDSKIFTNING AF MODULER",
+          "filename": "HRN113_B-15"
+        },
+        {
+          "number": "B8",
+          "name": "VEDLIGEHOLDELSE",
+          "filename": "HRN113_B-15"
+        },
+        {
+          "number": "B9",
+          "name": "TILSPÆNDINGSMOMENTER",
+          "filename": "HRN113_B-16"
+        },
+        {
+          "number": "B10",
+          "name": "KONTROL AF FASTSPÆNDING FOR GITTERKROGE",
+          "filename": "HRN113_B-16"
+        },
+        {
+          "number": "B11",
+          "name": "KONTROL AF GITTERSPÆNDING",
+          "filename": "HRN113_B-17"
+        },
+        {
+          "number": "B12",
+          "name": "KRAV OG KRITERIER FOR UDSKIFTNING AF MODULER",
+          "filename": "HRN113_B-19"
+        },
+        {
+          "number": "B13",
+          "name": "REPARATION AF MODULER",
+          "filename": "HRN113_B-19"
+        },
+        {
+          "number": "B14",
+          "name": "KØRSEL MED RPG-BESKYTTELSE",
+          "filename": "HRN113_B-20"
+        }
+      ],
       "firstPage": "B-01"
     },
     "C": {
       "name": "Tillæg C Gummibælte",
-      "sections": [],
+      "sections": [
+        {
+          "number": "C1",
+          "name": "BESKRIVELSE",
+          "filename": "HRN113_C-01"
+        },
+        {
+          "number": "C2",
+          "name": "VIRKEMÅDE",
+          "filename": "HRN113_C-01"
+        },
+        {
+          "number": "C3",
+          "name": "DATA",
+          "filename": "HRN113_C-02"
+        },
+        {
+          "number": "C4",
+          "name": "DRIVHJUL",
+          "filename": "HRN113_C-03"
+        },
+        {
+          "number": "C5",
+          "name": "JUSTERHJUL",
+          "filename": "HRN113_C-05"
+        },
+        {
+          "number": "C6",
+          "name": "VEJHJUL",
+          "filename": "HRN113_C-09"
+        },
+        {
+          "number": "C7",
+          "name": "GUMMIBÆLTE",
+          "filename": "HRN113_C-14"
+        },
+        {
+          "number": "C8",
+          "name": "FEDT-/GASJUSTERCYLINDER",
+          "filename": "HRN113_C-34"
+        },
+        {
+          "number": "C9",
+          "name": "MONTERING AF SNE-/MUDDERSKRABERSÆT",
+          "filename": "HRN113_C-36"
+        },
+        {
+          "number": "C10",
+          "name": "TERRÆN- / SNEKÆDER",
+          "filename": "HRN113_C-43"
+        }
+      ],
       "firstPage": "C-01"
     },
     "D": {
