@@ -1,0 +1,504 @@
+/**
+ * Offline Manager for PMV M113 Reglementsbibliotek
+ * Handles selective manual caching and offline functionality
+ */
+
+class OfflineManager {
+    constructor() {
+        this.swRegistration = null;
+        this.isOnline = navigator.onLine;
+        this.offlineManuals = new Set();
+        this.pendingDownloads = new Set();
+        
+        this.init();
+    }
+
+    async init() {
+        // DEBUG: Check for duplicate elements
+        setTimeout(() => {
+            console.log('DEBUG: Checking for duplicate connection status elements...');
+            
+            const elements = document.querySelectorAll('#connection-status');
+            console.log('DEBUG: Found', elements.length, 'elements with id="connection-status"');
+            elements.forEach((el, index) => {
+                console.log(`DEBUG: Element ${index}:`, el.outerHTML);
+                console.log(`DEBUG: Element ${index} parent:`, el.parentElement.outerHTML);
+            });
+
+            // Also check for class
+            const byClass = document.querySelectorAll('.connection-status');
+            console.log('DEBUG: Found', byClass.length, 'elements with class="connection-status"');
+            byClass.forEach((el, index) => {
+                console.log(`DEBUG: Element ${index}:`, el.outerHTML);
+            });
+            
+            // Check if any elements are visually duplicated due to CSS
+            const allOnlineText = document.querySelectorAll('*');
+            let onlineCount = 0;
+            allOnlineText.forEach(el => {
+                if (el.textContent && el.textContent.includes('Online') && el.textContent.trim() === 'Online') {
+                    onlineCount++;
+                    console.log('DEBUG: Found "Online" text in:', el.tagName, el.className, el.id, el.outerHTML);
+                }
+            });
+            console.log('DEBUG: Total elements containing "Online" text:', onlineCount);
+        }, 1000);
+        
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            try {
+                this.swRegistration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker registered successfully');
+                
+                // Listen for service worker updates
+                this.swRegistration.addEventListener('updatefound', () => {
+                    this.handleServiceWorkerUpdate();
+                });
+                
+            } catch (error) {
+                console.error('Service Worker registration failed:', error);
+            }
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            this.isOnline = true;
+            this.onOnlineStatusChanged(true);
+        });
+
+        window.addEventListener('offline', () => {
+            this.isOnline = false;
+            this.onOnlineStatusChanged(false);
+        });
+
+        // Load existing offline manuals
+        await this.loadOfflineManuals();
+        
+        // Set initial online status and reload link visibility
+        this.onOnlineStatusChanged(this.isOnline);
+        
+        // Check for updates if online
+        if (this.isOnline) {
+            setTimeout(() => this.checkForUpdates(), 5000); // Check after 5 seconds
+        }
+    }
+
+    // Download a manual for offline use
+    async downloadManual(manualId) {
+        if (this.pendingDownloads.has(manualId)) {
+            console.log(`Download already in progress for ${manualId}`);
+            return false;
+        }
+
+        this.pendingDownloads.add(manualId);
+        
+        try {
+            // Show loading state
+            this.updateManualUI(manualId, 'downloading');
+            
+            // Get all required files for this manual
+            const files = await this.getManualFiles(manualId);
+            
+            // Send message to service worker to cache the manual
+            const result = await this.sendMessageToSW('cache-manual', { 
+                manualId, 
+                files 
+            });
+
+            if (result.success) {
+                this.offlineManuals.add(manualId);
+                this.saveOfflineManuals();
+                this.updateManualUI(manualId, 'offline');
+                this.showNotification(`${manualId} er nu tilgængelig offline (${result.fileCount} sider)`, 'success');
+                return true;
+            } else {
+                throw new Error(result.error || 'Failed to cache manual');
+            }
+
+        } catch (error) {
+            console.error(`Failed to download manual ${manualId}:`, error);
+            this.showNotification(`Kunne ikke downloade ${manualId}: ${error.message}`, 'error');
+            this.updateManualUI(manualId, 'online');
+            return false;
+            
+        } finally {
+            this.pendingDownloads.delete(manualId);
+        }
+    }
+
+    // Remove a manual from offline storage
+    async removeManual(manualId) {
+        if (this.pendingDownloads.has(manualId)) {
+            console.log(`Download in progress for ${manualId}, cannot remove`);
+            return false;
+        }
+
+        try {
+            const result = await this.sendMessageToSW('remove-manual', { manualId });
+
+            if (result.success) {
+                this.offlineManuals.delete(manualId);
+                this.saveOfflineManuals();
+                this.updateManualUI(manualId, 'online');
+                this.showNotification(`${manualId} er ikke længere tilgængelig offline`, 'info');
+                return true;
+            } else {
+                throw new Error(result.error || 'Failed to remove manual');
+            }
+
+        } catch (error) {
+            console.error(`Failed to remove manual ${manualId}:`, error);
+            this.showNotification(`Kunne ikke fjerne ${manualId}: ${error.message}`, 'error');
+            return false;
+        }
+    }
+
+    // Toggle offline status for a manual
+    async toggleOfflineStatus(manualId) {
+        if (this.offlineManuals.has(manualId)) {
+            return await this.removeManual(manualId);
+        } else {
+            return await this.downloadManual(manualId);
+        }
+    }
+
+    // Get all files needed for a manual
+    async getManualFiles(manualId) {
+        const files = [];
+        
+        try {
+            // Get the search index to find all page files
+            const searchIndexResponse = await fetch(`/data/${manualId}-search-index.json`);
+            if (searchIndexResponse.ok) {
+                const searchIndex = await searchIndexResponse.json();
+                
+                // Extract unique image paths from the pages array
+                const uniquePaths = new Set();
+                searchIndex.pages.forEach(page => {
+                    if (page.imagePath) {
+                        uniquePaths.add(`/${page.imagePath}`);
+                    }
+                });
+                
+                files.push(...Array.from(uniquePaths));
+                console.log(`Found ${files.length} page images for ${manualId}`);
+            } else {
+                console.warn(`Could not load search index for ${manualId}`);
+            }
+            
+        } catch (error) {
+            console.warn(`Could not get page files for ${manualId}:`, error);
+        }
+
+        // If we couldn't get files from search index, try to estimate from known patterns
+        if (files.length === 0) {
+            console.log(`Attempting to estimate page files for ${manualId}`);
+            
+            // Try to fetch a few known page patterns to see what exists
+            const possiblePages = [];
+            
+            // For HRN113-001, HRN113-002 format
+            if (manualId.startsWith('HRN113-')) {
+                for (let i = 1; i <= 400; i++) {
+                    const pageNum = i.toString().padStart(2, '0');
+                    for (let chapter = 1; chapter <= 9; chapter++) {
+                        possiblePages.push(`/pages/${manualId}/HRN113_${chapter}-${pageNum}.png`);
+                    }
+                    // Add appendix pages
+                    for (let appendix of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']) {
+                        possiblePages.push(`/pages/${manualId}/HRN113_${appendix}-${pageNum}.png`);
+                        possiblePages.push(`/pages/${manualId}/HRN113_${appendix}-${i}.png`);
+                    }
+                }
+            }
+            
+            // For HRN737 format
+            if (manualId.startsWith('HRN737-')) {
+                for (let i = 1; i <= 200; i++) {
+                    const pageNum = i.toString().padStart(2, '0');
+                    possiblePages.push(`/pages/${manualId}/${manualId}-${pageNum}.png`);
+                }
+            }
+            
+            // Test which pages actually exist (sample first 50)
+            const testPages = possiblePages.slice(0, 50);
+            for (const page of testPages) {
+                try {
+                    const response = await fetch(page, { method: 'HEAD' });
+                    if (response.ok) {
+                        files.push(page);
+                    }
+                } catch (e) {
+                    // Page doesn't exist, continue
+                }
+            }
+        }
+
+        return files;
+    }
+
+    // Send message to service worker and wait for response
+    sendMessageToSW(action, data = {}) {
+        return new Promise((resolve, reject) => {
+            if (!this.swRegistration || !this.swRegistration.active) {
+                reject(new Error('Service Worker not available'));
+                return;
+            }
+
+            const messageChannel = new MessageChannel();
+            
+            messageChannel.port1.onmessage = (event) => {
+                resolve(event.data);
+            };
+
+            this.swRegistration.active.postMessage({
+                action,
+                ...data
+            }, [messageChannel.port2]);
+        });
+    }
+
+    // Load offline manuals from localStorage and service worker
+    async loadOfflineManuals() {
+        // Load from localStorage first
+        const stored = localStorage.getItem('offlineManuals');
+        if (stored) {
+            try {
+                const manuals = JSON.parse(stored);
+                this.offlineManuals = new Set(manuals);
+            } catch (error) {
+                console.warn('Could not parse stored offline manuals:', error);
+            }
+        }
+
+        // Verify with service worker
+        try {
+            const result = await this.sendMessageToSW('get-offline-manuals');
+            if (result.success) {
+                const actualOffline = new Set(result.manuals.map(m => m.id));
+                this.offlineManuals = actualOffline;
+                this.saveOfflineManuals();
+            }
+        } catch (error) {
+            console.warn('Could not verify offline manuals with service worker:', error);
+        }
+
+        // Update UI for all manuals
+        this.updateAllManualUIs();
+    }
+
+    // Save offline manuals to localStorage
+    saveOfflineManuals() {
+        localStorage.setItem('offlineManuals', JSON.stringify(Array.from(this.offlineManuals)));
+    }
+
+    // Update UI for a specific manual
+    updateManualUI(manualId, status) {
+        const checkbox = document.querySelector(`[data-manual-id="${manualId}"] .offline-checkbox`);
+        const label = document.querySelector(`[data-manual-id="${manualId}"] .offline-label`);
+        
+        if (!checkbox || !label) return;
+
+        switch (status) {
+            case 'downloading':
+                checkbox.checked = false;
+                checkbox.disabled = true;
+                label.textContent = 'Downloader...';
+                label.classList.add('downloading');
+                label.classList.remove('offline');
+                break;
+                
+            case 'offline':
+                checkbox.checked = true;
+                checkbox.disabled = false;
+                label.textContent = 'Tilgængelig offline';
+                label.classList.remove('downloading');
+                label.classList.add('offline');
+                break;
+                
+            case 'online':
+            default:
+                checkbox.checked = false;
+                checkbox.disabled = false;
+                label.textContent = 'Tilgængelig offline';
+                label.classList.remove('downloading', 'offline');
+                break;
+        }
+    }
+
+    // Update UI for all manuals
+    updateAllManualUIs() {
+        const manualCards = document.querySelectorAll('[data-manual-id]');
+        manualCards.forEach(card => {
+            const manualId = card.getAttribute('data-manual-id');
+            const status = this.offlineManuals.has(manualId) ? 'offline' : 'online';
+            this.updateManualUI(manualId, status);
+        });
+    }
+
+    // Handle online/offline status changes
+    onOnlineStatusChanged(isOnline) {
+        const statusElement = document.getElementById('connection-status');
+        const reloadLink = document.getElementById('reload-link');
+        
+        if (statusElement) {
+            statusElement.textContent = isOnline ? 'Online' : 'Offline';
+            statusElement.className = isOnline ? 'status-online' : 'status-offline';
+        }
+
+        if (reloadLink) {
+            if (isOnline) {
+                reloadLink.classList.add('visible');
+            } else {
+                reloadLink.classList.remove('visible');
+            }
+        }
+
+        if (isOnline) {
+            // Check for updates when coming back online
+            setTimeout(() => this.checkForUpdates(), 2000);
+        }
+    }
+
+    // Check for application updates
+    async checkForUpdates() {
+        if (!this.isOnline) return;
+
+        try {
+            const result = await this.sendMessageToSW('check-version');
+            if (result.success && result.hasUpdate) {
+                this.showUpdateAvailable(result.latestVersion, result.updateInfo);
+            }
+        } catch (error) {
+            console.log('Could not check for updates:', error);
+        }
+    }
+
+    // Show update available notification
+    showUpdateAvailable(version, updateInfo) {
+        const updateMessage = `En ny version (${version}) er tilgængelig. Vil du opdatere?`;
+        
+        if (confirm(updateMessage)) {
+            this.performUpdate();
+        }
+    }
+
+    // Perform application update
+    async performUpdate() {
+        try {
+            this.showNotification('Genindlæser siden...', 'info');
+            
+            if (this.swRegistration) {
+                // First try to update the service worker
+                await this.swRegistration.update();
+                
+                // If there's a waiting service worker, activate it
+                if (this.swRegistration.waiting) {
+                    this.swRegistration.waiting.postMessage({ action: 'skipWaiting' });
+                }
+            }
+            
+            // Clear all caches to force fresh content
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => caches.delete(name)));
+            }
+            
+            // Force reload with cache bypass
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 500);
+            
+        } catch (error) {
+            console.error('Update failed:', error);
+            this.showNotification('Fejl ved opdatering, genindlæser siden...', 'error');
+            // Fallback to simple reload
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+        }
+    }
+
+    // Handle service worker updates
+    handleServiceWorkerUpdate() {
+        const newWorker = this.swRegistration.installing;
+        
+        newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New version available
+                this.showNotification('En ny version er klar til installation', 'info');
+            }
+        });
+    }
+
+    // Show notification to user
+    showNotification(message, type = 'info') {
+        // Create or get notification container
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+
+        // Add close button
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '×';
+        closeBtn.className = 'notification-close';
+        closeBtn.onclick = () => notification.remove();
+        notification.appendChild(closeBtn);
+
+        // Add to container and auto-remove after 5 seconds
+        container.appendChild(notification);
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    // Get storage usage information
+    async getStorageInfo() {
+        if ('storage' in navigator && 'estimate' in navigator.storage) {
+            try {
+                const estimate = await navigator.storage.estimate();
+                return {
+                    used: estimate.usage,
+                    total: estimate.quota,
+                    usedMB: Math.round(estimate.usage / (1024 * 1024)),
+                    totalMB: Math.round(estimate.quota / (1024 * 1024)),
+                    percentUsed: Math.round((estimate.usage / estimate.quota) * 100)
+                };
+            } catch (error) {
+                console.warn('Could not get storage info:', error);
+            }
+        }
+        return null;
+    }
+
+    // Check if manual is available offline
+    isManualOffline(manualId) {
+        return this.offlineManuals.has(manualId);
+    }
+
+    // Get list of offline manuals
+    getOfflineManuals() {
+        return Array.from(this.offlineManuals);
+    }
+}
+
+// Initialize offline manager when script loads
+let offlineManager;
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        offlineManager = new OfflineManager();
+    });
+} else {
+    offlineManager = new OfflineManager();
+}

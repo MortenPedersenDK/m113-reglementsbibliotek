@@ -1,0 +1,64 @@
+{
+  "name": "PMV M113 Reglementsbibliotek",
+  "short_name": "M113 Manualer",
+  "description": "Søgbare PMV M113 reglementer fra Pansermuseet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c5530",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "da",
+  "categories": ["reference", "utilities"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon-16x16.svg",
+      "sizes": "16x16",
+      "type": "image/svg+xml"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Manual viewer with table of contents"
+    },
+    {
+      "src": "img/screenshot-mobile.png", 
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile manual reader"
+    }
+  ],
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple"
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "HRN 113-001",
+      "short_name": "113-001",
+      "description": "PMV M113 familie reglement",
+      "url": "/HRN113-001.html",
+      "icons": [{ "src": "favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "HRN 113-002", 
+      "short_name": "113-002",
+      "description": "PMV M113 G3/G4 DK reglement",
+      "url": "/HRN113-002.html",
+      "icons": [{ "src": "favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

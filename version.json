@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "releaseDate": "2026-01-22",
+  "description": "Initial offline-capable version with selective manual caching",
+  "features": [
+    "Offline functionality for selected manuals",
+    "Progressive Web App (PWA) support",
+    "Automatic update checking",
+    "Storage management"
+  ],
+  "changes": [
+    "Added offline support for individual manuals",
+    "Implemented service worker for caching",
+    "Added PWA manifest for installation",
+    "Added update notification system"
+  ]
+}

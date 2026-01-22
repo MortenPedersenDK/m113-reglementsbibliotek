@@ -915,3 +915,226 @@ body.index-page .container {
         padding: 25px 15px;
     }
 }
+
+/* ===== OFFLINE FUNCTIONALITY STYLES ===== */
+
+/* Manual card restructure for offline checkbox */
+.manual-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+
+.manual-offline-control {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.offline-control-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    user-select: none;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.offline-control-label:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.offline-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #27ae60;
+    cursor: pointer;
+}
+
+.offline-label {
+    transition: color 0.3s ease;
+    font-weight: 400;
+}
+
+.offline-label.downloading {
+    color: #f39c12;
+    font-style: italic;
+}
+
+.offline-label.offline {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+/* Connection status indicator */
+.connection-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#connection-status {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.reload-link {
+    padding: 6px 12px;
+    background: rgba(52, 152, 219, 0.2);
+    border: 1px solid rgba(52, 152, 219, 0.5);
+    border-radius: 16px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: none; /* Hidden by default */
+}
+
+.reload-link:hover {
+    background: rgba(52, 152, 219, 0.3);
+    color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.reload-link.visible {
+    display: block;
+}
+
+.status-online {
+    background-color: rgba(39, 174, 96, 0.2);
+    border: 1px solid rgba(39, 174, 96, 0.5);
+    color: #2ecc71;
+}
+
+.status-offline {
+    background-color: rgba(231, 76, 60, 0.2);
+    border: 1px solid rgba(231, 76, 60, 0.5);
+    color: #e74c3c;
+}
+
+/* Notification system */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 400px;
+}
+
+.notification {
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    animation: slideInRight 0.3s ease;
+}
+
+.notification-success {
+    border-left-color: #27ae60;
+}
+
+.notification-error {
+    border-left-color: #e74c3c;
+}
+
+.notification-info {
+    border-left-color: #3498db;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-close:hover {
+    opacity: 0.7;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* PWA install prompt styles */
+.pwa-install-prompt {
+    background: rgba(52, 73, 94, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.pwa-install-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pwa-install-button:hover {
+    background: #2980b9;
+}
+
+/* Responsive adjustments for offline controls */
+@media (max-width: 768px) {
+    .notification-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+    
+    .notification {
+        font-size: 14px;
+        padding: 12px;
+    }
+    
+    .connection-status {
+        margin-bottom: 15px;
+    }
+    
+    #connection-status {
+        font-size: 13px;
+        padding: 5px 14px;
+    }
+}

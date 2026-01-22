@@ -7,6 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/svg+xml" sizes="16x16" href="favicon-16x16.svg">
     <link rel="alternate icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/manual-styles.css">
 </head>
 <body class="index-page">
@@ -15,35 +16,59 @@
         <p class="subtitle">Søgbare PMV M113 reglementer.</p>
         
         <div class="manuals-grid">
-            <a href="HRN113-001.html" class="manual-card">
+            <a href="HRN113-001.html" class="manual-card" data-manual-id="HRN113-001">
                 <div class="manual-title">HRN 133-001</div>
                 <div class="manual-subtitle">Pansret mandskabsvogn af M113-familien</div>
                 <div class="manual-description">
                     Reglement for PMV 113 familien, primært A1. 
                 </div>
+                <div class="manual-offline-control">
+                    <label class="offline-control-label" onclick="event.preventDefault(); event.stopPropagation(); offlineManager.toggleOfflineStatus('HRN113-001');">
+                        <input type="checkbox" class="offline-checkbox">
+                        <span class="offline-label">Tilgængelig offline</span>
+                    </label>
+                </div>
             </a>
             
-            <a href="HRN113-002.html" class="manual-card">
+            <a href="HRN113-002.html" class="manual-card" data-manual-id="HRN113-002">
                 <div class="manual-title">HRN 113-002</div>
                 <div class="manual-subtitle">PMV M113 G3/G4 DK</div>
                 <div class="manual-description">
                     Reglement for PMV M113 G3/G4 DK. Se tillæg I for forskelle mellem G3 og G4.
                 </div>
+                <div class="manual-offline-control">
+                    <label class="offline-control-label" onclick="event.preventDefault(); event.stopPropagation(); offlineManager.toggleOfflineStatus('HRN113-002');">
+                        <input type="checkbox" class="offline-checkbox">
+                        <span class="offline-label">Tilgængelig offline</span>
+                    </label>
+                </div>
             </a>
             
-            <a href="HRN737-012.html" class="manual-card">
+            <a href="HRN737-012.html" class="manual-card" data-manual-id="HRN737-012">
                 <div class="manual-title">HRN 737-012</div>
                 <div class="manual-subtitle">PMV M113 G3 DK familien Eftersyn</div>
                 <div class="manual-description">
                     Eftersynsreglement for PMV M113 G3 DK familien.
                 </div>
+                <div class="manual-offline-control">
+                    <label class="offline-control-label" onclick="event.preventDefault(); event.stopPropagation(); offlineManager.toggleOfflineStatus('HRN737-012');">
+                        <input type="checkbox" class="offline-checkbox">
+                        <span class="offline-label">Tilgængelig offline</span>
+                    </label>
+                </div>
             </a>
             
-            <a href="HRN737-018.html" class="manual-card">
+            <a href="HRN737-018.html" class="manual-card" data-manual-id="HRN737-018">
                 <div class="manual-title">HRN 737-018</div>
                 <div class="manual-subtitle">PMV M113 G4 DK familien Eftersyn</div>
                 <div class="manual-description">
                     Eftersynsreglement for PMV M113 G4 DK familien.
+                </div>
+                <div class="manual-offline-control">
+                    <label class="offline-control-label" onclick="event.preventDefault(); event.stopPropagation(); offlineManager.toggleOfflineStatus('HRN737-018');">
+                        <input type="checkbox" class="offline-checkbox">
+                        <span class="offline-label">Tilgængelig offline</span>
+                    </label>
                 </div>
             </a>
         </div>
@@ -66,8 +91,16 @@
             </ul>
             <p><strong>Søgning:</strong> Brug søgefeltet til at finde specifikke ord eller udtryk i reglementet. Søgeresultater viser kontekst og leder direkte til den relevante side.</p>
             <p><strong>Indholdsfortegnelse:</strong> Klik på menu-knappen (☰) for at åbne indholdsfortegnelsen og navigere direkte til ønskede kapitler og afsnit.</p>
+            <p><strong>Offline brug:</strong> For at få adgang til reglementer uden internetforbindelse skal du markere afkrydsningsfeltet "Tilgængelig offline" på det ønskede reglement. Dette downloader alle sider til din enhed, så du kan læse dem selv uden internet. Når du er online igen, kan du klikke "Genindlæs" for at opdatere til den seneste version.</p>
+            <p><strong>Tilføj til hjemmeskærm (iOS/iPadOS):</strong> I Safari kan du tilføje reglementbiblioteket til din hjemmeskærm for hurtig adgang. Tryk på Del-knappen (📤) nederst i skærmen, vælg "Tilføj til hjemmeskærm" og bekræft. Herefter fungerer siden som en app på din enhed.</p>
             <p>Finder du fejl i navigation/søgning/struktur så giv Morten Bundgaard et praj til en arbejdsdag på museet.</p>
         </div>
+    </div>
+    
+    <!-- Connection Status Indicator -->
+    <div class="connection-status">
+        <span id="connection-status" class="status-online">Online</span>
+        <a href="#" id="reload-link" class="reload-link" onclick="offlineManager.performUpdate(); return false;">Genindlæs</a>
     </div>
     
     <!-- PDF Modal -->
@@ -112,5 +145,8 @@
             }
         });
     </script>
+    
+    <script src="js/offline-manager.js?v=2"></script>
+    <script src="debug-status.js?v=2"></script>
 </body>
 </html>
