@@ -493,106 +493,39 @@
       "firstPage": "7-01"
     },
     "A": {
-      "name": "Tillæg A Oversigt Af Div. Data, Tekniske Specifikationer M.V.",
+      "name": "Tillæg A Oversigt Over Div. Data, Tekniske Specifikationer M.V.",
       "sections": [
         {
           "number": "A01",
-          "name": "PMV M113",
+          "name": "PMV M113 G3 DK",
           "filename": "HRN113_A-01"
         },
         {
           "number": "A02",
-          "name": "PMV M113A1",
+          "name": "PMV M113 G3 DK,-LANG",
           "filename": "HRN113_A-03"
         },
         {
           "number": "A03",
-          "name": "Afsnit A03",
+          "name": "PNMK M/92 G3 DK",
           "filename": "HRN113_A-04"
         },
         {
           "number": "A04",
-          "name": "Afsnit A04",
-          "filename": "HRN113_A-06"
-        },
-        {
-          "number": "A05",
-          "name": "PNMK M/92",
-          "filename": "HRN113_A-08"
-        },
-        {
-          "number": "A06",
-          "name": "Afsnit A06",
-          "filename": "HRN113_A-09"
+          "name": "Tilspændingsmomenter",
+          "filename": "HRN113_A-04"
         }
       ],
       "firstPage": "A-01"
     },
     "B": {
-      "name": "Tillæg B PMV Benzin",
-      "sections": [
-        {
-          "number": "B01",
-          "name": "Generelt",
-          "filename": "HRN113_B-1"
-        }
-      ],
-      "firstPage": "B-1"
+      "name": "Tillæg B Rpg-Beskyttelse Lasso System",
+      "sections": [],
+      "firstPage": "B-01"
     },
     "C": {
       "name": "Tillæg C Gummibælte",
-      "sections": [
-        {
-          "number": "C01",
-          "name": "Beskrivelse",
-          "filename": "HRN113_C-01"
-        },
-        {
-          "number": "C02",
-          "name": "Virkemåde",
-          "filename": "HRN113_C-01"
-        },
-        {
-          "number": "C03",
-          "name": "Data",
-          "filename": "HRN113_C-02"
-        },
-        {
-          "number": "C04",
-          "name": "Drivhjul",
-          "filename": "HRN113_C-03"
-        },
-        {
-          "number": "C05",
-          "name": "Justerhjul",
-          "filename": "HRN113_C-05"
-        },
-        {
-          "number": "C06",
-          "name": "Løberuller",
-          "filename": "HRN113_C-06"
-        },
-        {
-          "number": "C07",
-          "name": "Gummibælte",
-          "filename": "HRN113_C-14"
-        },
-        {
-          "number": "C08",
-          "name": "Fedt-/gasjustercylinder",
-          "filename": "HRN113_C-34"
-        },
-        {
-          "number": "C09",
-          "name": "Montering af sne-/mudderskrabersæt",
-          "filename": "HRN113_C-36"
-        },
-        {
-          "number": "C10",
-          "name": "Terræn- / snekæder",
-          "filename": "HRN113_C-43"
-        }
-      ],
+      "sections": [],
       "firstPage": "C-01"
     },
     "D": {
@@ -684,18 +617,7 @@
     },
     "F": {
       "name": "Tillæg F Mørklægningspositionslygter",
-      "sections": [
-        {
-          "number": "F01",
-          "name": "Forreste mørklægningspositionslygter",
-          "filename": "HRN113_F-1"
-        },
-        {
-          "number": "F02",
-          "name": "Bagerste mørklægningspositionslygter",
-          "filename": "HRN113_F-2"
-        }
-      ],
+      "sections": [],
       "firstPage": "F-1"
     },
     "G": {
