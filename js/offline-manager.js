@@ -6,6 +6,7 @@
 class OfflineManager {
     constructor() {
         this.swRegistration = null;
+        this.serviceWorkerFailed = false;
         this.isOnline = navigator.onLine;
         this.offlineManuals = new Set();
         this.pendingDownloads = new Set();
@@ -68,6 +69,8 @@ class OfflineManager {
                 
             } catch (error) {
                 console.error('Service Worker registration failed:', error);
+                // Only show error for offline functionality, not for basic reload
+                this.serviceWorkerFailed = true;
                 this.handleServiceWorkerError(error);
             }
         } else {
@@ -102,6 +105,12 @@ class OfflineManager {
     async downloadManual(manualId) {
         if (this.pendingDownloads.has(manualId)) {
             console.log(`Download already in progress for ${manualId}`);
+            return false;
+        }
+
+        // Check if service worker is available before attempting download
+        if (this.serviceWorkerFailed || !this.swRegistration) {
+            this.showOfflineUnavailableError();
             return false;
         }
 
@@ -160,6 +169,20 @@ class OfflineManager {
         } finally {
             this.pendingDownloads.delete(manualId);
         }
+    }
+
+    // Show offline unavailable error when user tries to download
+    showOfflineUnavailableError() {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        let message = 'Offline funktionalitet er ikke tilgængelig';
+        
+        if (isIOS) {
+            message += '. Sikre dig at du ikke er i Private Browsing mode og prøv at genindlæse siden.';
+        } else {
+            message += '. Prøv at genindlæse siden.';
+        }
+        
+        this.showNotification(message, 'error');
     }
 
     // Remove a manual from offline storage
@@ -480,33 +503,50 @@ class OfflineManager {
         try {
             this.showNotification('Genindlæser siden...', 'info');
             
-            if (this.swRegistration) {
-                // First try to update the service worker
-                await this.swRegistration.update();
-                
-                // If there's a waiting service worker, activate it
-                if (this.swRegistration.waiting) {
-                    this.swRegistration.waiting.postMessage({ action: 'skipWaiting' });
+            // Check if service worker is available and working
+            if (this.swRegistration && this.swRegistration.active && !this.serviceWorkerFailed) {
+                try {
+                    // First try to update the service worker
+                    await this.swRegistration.update();
+                    console.log('Service worker updated successfully');
+                    
+                    // If there's a waiting service worker, activate it
+                    if (this.swRegistration.waiting) {
+                        this.swRegistration.waiting.postMessage({ action: 'skipWaiting' });
+                        console.log('Activated waiting service worker');
+                    }
+                } catch (swError) {
+                    console.warn('Service worker update failed, proceeding with cache clear:', swError);
+                }
+            } else {
+                console.log('Service worker not available, performing simple reload');
+            }
+            
+            // Clear all caches to force fresh content (works even without service worker)
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                    console.log('All caches cleared successfully');
+                } catch (cacheError) {
+                    console.warn('Failed to clear some caches:', cacheError);
+                    // Don't show error to user for cache clearing - just continue with reload
                 }
             }
             
-            // Clear all caches to force fresh content
-            if ('caches' in window) {
-                const cacheNames = await caches.keys();
-                await Promise.all(cacheNames.map(name => caches.delete(name)));
-            }
-            
-            // Force reload with cache bypass
+            // Always proceed with reload regardless of service worker status
+            this.showNotification('Opdaterer siden...', 'info');
             setTimeout(() => {
-                window.location.reload(true);
+                // Use location.reload() without parameter for better compatibility
+                window.location.reload();
             }, 500);
             
         } catch (error) {
             console.error('Update failed:', error);
-            this.showNotification('Fejl ved opdatering, genindlæser siden...', 'error');
-            // Fallback to simple reload
+            // Don't show the service worker error here - just do a simple reload
+            this.showNotification('Opdaterer siden...', 'info');
             setTimeout(() => {
-                window.location.reload(true);
+                window.location.reload();
             }, 1000);
         }
     }
@@ -575,6 +615,9 @@ class OfflineManager {
     handleServiceWorkerError(error) {
         console.error('Service Worker error:', error);
         
+        // Only show notification if this affects user functionality
+        // Don't overwhelm user with technical errors during page load
+        let shouldShowNotification = false;
         let userMessage = 'Offline funktionalitet er ikke tilgængelig';
         
         // Provide specific guidance for iOS users
@@ -584,14 +627,24 @@ class OfflineManager {
         if (isIOS || isSafari) {
             if (error.message.includes('private browsing') || error.message.includes('private mode')) {
                 userMessage += ': Private browsing mode understøttes ikke. Skift til normal browsing mode for offline adgang.';
+                shouldShowNotification = true; // This is important for user to know
             } else if (error.message.includes('HTTPS')) {
                 userMessage += ': HTTPS påkrævet for offline funktionalitet.';
+                shouldShowNotification = true;
             } else {
+                // For other iOS errors, just log them and disable offline features quietly
                 userMessage += ': Prøv at genindlæse siden eller opdatere Safari.';
+                // Only show this if user actually tries to use offline features
+                shouldShowNotification = false;
             }
+        } else {
+            shouldShowNotification = true; // Show for non-iOS browsers
         }
         
-        this.showNotification(userMessage, 'error');
+        if (shouldShowNotification) {
+            this.showNotification(userMessage, 'warning');
+        }
+        
         this.disableOfflineControls();
     }
 
