@@ -175,6 +175,12 @@ self.addEventListener('message', event => {
             event.waitUntil(getOfflineManuals(event.ports[0]));
             break;
             
+        case 'skipWaiting':
+            // Force activation for iOS/Safari compatibility
+            console.log('[SW] Force activating service worker');
+            self.skipWaiting();
+            break;
+            
         default:
             if (event.ports[0]) {
                 event.ports[0].postMessage({ error: `Unknown action: ${action}` });

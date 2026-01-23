@@ -14,6 +14,9 @@ class OfflineManager {
     }
 
     async init() {
+        // Log environment information for debugging
+        this.logEnvironmentInfo();
+        
         // DEBUG: Check for duplicate elements
         setTimeout(() => {
             console.log('DEBUG: Checking for duplicate connection status elements...');
@@ -44,11 +47,19 @@ class OfflineManager {
             console.log('DEBUG: Total elements containing "Online" text:', onlineCount);
         }, 1000);
         
-        // Register service worker
+        // Register service worker with iOS-specific handling
         if ('serviceWorker' in navigator) {
             try {
+                // Check if we're in a context where service workers work (not private browsing on iOS)
+                if (navigator.serviceWorker.controller === null && !window.isSecureContext) {
+                    throw new Error('Service workers require HTTPS or localhost');
+                }
+
                 this.swRegistration = await navigator.serviceWorker.register('/sw.js');
                 console.log('Service Worker registered successfully');
+                
+                // Wait for service worker to become ready (especially important on iOS/Safari)
+                await this.waitForServiceWorkerReady();
                 
                 // Listen for service worker updates
                 this.swRegistration.addEventListener('updatefound', () => {
@@ -57,7 +68,11 @@ class OfflineManager {
                 
             } catch (error) {
                 console.error('Service Worker registration failed:', error);
+                this.handleServiceWorkerError(error);
             }
+        } else {
+            console.warn('Service Workers are not supported in this browser');
+            this.handleServiceWorkerUnsupported();
         }
 
         // Listen for online/offline events
@@ -117,7 +132,28 @@ class OfflineManager {
 
         } catch (error) {
             console.error(`Failed to download manual ${manualId}:`, error);
-            this.showNotification(`Kunne ikke downloade ${manualId}: ${error.message}`, 'error');
+            
+            // Provide more specific error messages
+            let userMessage = `Kunne ikke downloade ${manualId}`;
+            
+            if (error.message.includes('Service worker not available') || 
+                error.message.includes('Service Worker not registered')) {
+                
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                if (isIOS) {
+                    userMessage += ': Service worker ikke tilgængelig. Prøv at:\n• Genindlæse siden\n• Sikre du ikke er i Private Browsing mode\n• Opdatere Safari til seneste version';
+                } else {
+                    userMessage += ': Service worker ikke tilgængelig. Prøv at genindlæse siden.';
+                }
+            } else if (error.message.includes('timeout')) {
+                userMessage += ': Forbindelsen fik timeout. Tjek din internetforbindelse og prøv igen.';
+            } else if (error.message.includes('fetch')) {
+                userMessage += ': Kunne ikke hente filer. Tjek din internetforbindelse.';
+            } else {
+                userMessage += `: ${error.message}`;
+            }
+            
+            this.showNotification(userMessage, 'error');
             this.updateManualUI(manualId, 'online');
             return false;
             
@@ -237,24 +273,80 @@ class OfflineManager {
         return files;
     }
 
+    // Wait for service worker to become ready (especially important on iOS/Safari)
+    async waitForServiceWorkerReady() {
+        if (!this.swRegistration) {
+            throw new Error('No service worker registration');
+        }
+
+        // If already active, return immediately
+        if (this.swRegistration.active) {
+            return this.swRegistration.active;
+        }
+
+        // If installing, wait for it to become active
+        if (this.swRegistration.installing) {
+            await new Promise((resolve) => {
+                this.swRegistration.installing.addEventListener('statechange', () => {
+                    if (this.swRegistration.installing.state === 'activated') {
+                        resolve();
+                    }
+                });
+            });
+        }
+
+        // Wait up to 10 seconds for service worker to become ready
+        const timeout = 10000; // 10 seconds
+        const startTime = Date.now();
+        
+        while (!this.swRegistration.active && (Date.now() - startTime) < timeout) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        if (!this.swRegistration.active) {
+            throw new Error('Service worker failed to become active within timeout');
+        }
+
+        console.log('Service Worker is ready');
+        return this.swRegistration.active;
+    }
+
     // Send message to service worker and wait for response
     sendMessageToSW(action, data = {}) {
-        return new Promise((resolve, reject) => {
-            if (!this.swRegistration || !this.swRegistration.active) {
-                reject(new Error('Service Worker not available'));
-                return;
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Ensure service worker is ready before sending message
+                if (!this.swRegistration) {
+                    throw new Error('Service Worker not registered');
+                }
+
+                // Wait for service worker to be active (with timeout)
+                await this.waitForServiceWorkerReady();
+
+                const messageChannel = new MessageChannel();
+                
+                messageChannel.port1.onmessage = (event) => {
+                    resolve(event.data);
+                };
+
+                // Add timeout for the message response
+                const timeout = setTimeout(() => {
+                    reject(new Error('Service Worker response timeout'));
+                }, 30000); // 30 seconds
+
+                messageChannel.port1.onmessage = (event) => {
+                    clearTimeout(timeout);
+                    resolve(event.data);
+                };
+
+                this.swRegistration.active.postMessage({
+                    action,
+                    ...data
+                }, [messageChannel.port2]);
+
+            } catch (error) {
+                reject(new Error(`Service worker not available: ${error.message}`));
             }
-
-            const messageChannel = new MessageChannel();
-            
-            messageChannel.port1.onmessage = (event) => {
-                resolve(event.data);
-            };
-
-            this.swRegistration.active.postMessage({
-                action,
-                ...data
-            }, [messageChannel.port2]);
         });
     }
 
@@ -427,6 +519,99 @@ class OfflineManager {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                 // New version available
                 this.showNotification('En ny version er klar til installation', 'info');
+            }
+        });
+    }
+
+    // Log environment information for debugging
+    logEnvironmentInfo() {
+        const userAgent = navigator.userAgent;
+        const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+        const isStandalone = window.navigator.standalone;
+        const isSecure = window.isSecureContext;
+        const hasServiceWorker = 'serviceWorker' in navigator;
+        
+        console.log('=== Environment Info ===');
+        console.log('User Agent:', userAgent);
+        console.log('iOS Device:', isIOS);
+        console.log('Safari Browser:', isSafari);
+        console.log('Standalone Mode (PWA):', isStandalone);
+        console.log('Secure Context (HTTPS):', isSecure);
+        console.log('Service Worker Support:', hasServiceWorker);
+        console.log('Private Browsing:', this.isPrivateBrowsing());
+        console.log('Online Status:', navigator.onLine);
+        console.log('========================');
+    }
+
+    // Detect private browsing mode (especially important on iOS)
+    isPrivateBrowsing() {
+        try {
+            // Try to use localStorage - it throws in private browsing on iOS
+            localStorage.setItem('test-private', 'test');
+            localStorage.removeItem('test-private');
+            
+            // Check for other indicators
+            if (window.safari && window.safari.pushNotification) {
+                return false; // Not private browsing
+            }
+            
+            // iOS private browsing has limited localStorage
+            if (navigator.storage && navigator.storage.estimate) {
+                return navigator.storage.estimate().then(estimate => {
+                    return estimate.quota < 120000000; // Less than ~120MB indicates private browsing
+                });
+            }
+            
+            return false;
+            
+        } catch (e) {
+            // localStorage throws an exception in iOS private browsing
+            return true;
+        }
+    }
+
+    // Handle service worker registration errors (iOS-specific)
+    handleServiceWorkerError(error) {
+        console.error('Service Worker error:', error);
+        
+        let userMessage = 'Offline funktionalitet er ikke tilgængelig';
+        
+        // Provide specific guidance for iOS users
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        
+        if (isIOS || isSafari) {
+            if (error.message.includes('private browsing') || error.message.includes('private mode')) {
+                userMessage += ': Private browsing mode understøttes ikke. Skift til normal browsing mode for offline adgang.';
+            } else if (error.message.includes('HTTPS')) {
+                userMessage += ': HTTPS påkrævet for offline funktionalitet.';
+            } else {
+                userMessage += ': Prøv at genindlæse siden eller opdatere Safari.';
+            }
+        }
+        
+        this.showNotification(userMessage, 'error');
+        this.disableOfflineControls();
+    }
+
+    // Handle unsupported service worker
+    handleServiceWorkerUnsupported() {
+        console.warn('Service Workers not supported');
+        this.showNotification('Offline funktionalitet understøttes ikke i denne browser', 'warning');
+        this.disableOfflineControls();
+    }
+
+    // Disable offline controls when service worker is unavailable
+    disableOfflineControls() {
+        const offlineControls = document.querySelectorAll('.manual-offline-control');
+        offlineControls.forEach(control => {
+            control.style.opacity = '0.5';
+            control.style.pointerEvents = 'none';
+            
+            const label = control.querySelector('.offline-label');
+            if (label) {
+                label.textContent = 'Offline ikke tilgængelig';
             }
         });
     }
