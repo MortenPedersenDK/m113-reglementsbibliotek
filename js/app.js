@@ -918,6 +918,13 @@ class ManualViewer {
         const manualId = this.offlineBtn.getAttribute('data-manual-id');
         if (!manualId) return;
         
+        // Wait for offline manager to be available (up to 3 seconds)
+        let attempts = 0;
+        while (typeof window.offlineManager === 'undefined' && attempts < 30) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
         // Check if offline manager is available
         if (typeof window.offlineManager === 'undefined') {
             this.showOfflineError('Offline funktionalitet er ikke tilgængelig');
@@ -939,11 +946,19 @@ class ManualViewer {
         const manualId = this.offlineBtn.getAttribute('data-manual-id');
         if (!manualId) return;
         
+        // Wait for offline manager to be available (up to 5 seconds)
+        let attempts = 0;
+        while (typeof window.offlineManager === 'undefined' && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
         // Check if offline manager is available
         if (typeof window.offlineManager === 'undefined') {
             this.offlineBtn.textContent = 'Offline N/A';
             this.offlineBtn.className = 'offline-btn error';
             this.offlineBtn.disabled = true;
+            this.offlineBtn.title = 'Offline funktionalitet ikke tilgængelig';
             return;
         }
         
