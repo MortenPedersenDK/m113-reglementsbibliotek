@@ -109,64 +109,60 @@ class OfflineManager {
     setupOfflineControlListeners() {
         // Wait for DOM to be ready
         const setupListeners = () => {
+            console.log('Setting up offline control listeners...');
             const offlineLabels = document.querySelectorAll('.offline-control-label');
+            console.log('Found', offlineLabels.length, 'offline control labels');
             
-            offlineLabels.forEach(label => {
+            offlineLabels.forEach((label, index) => {
                 const manualId = label.getAttribute('data-manual-id');
-                if (!manualId) return;
+                console.log(`Setting up label ${index}: manualId = ${manualId}`);
+                
+                if (!manualId) {
+                    console.warn('No manual ID found for label', label);
+                    return;
+                }
 
-                // Remove any existing listeners
+                // Remove any existing listeners by cloning the element
                 const newLabel = label.cloneNode(true);
                 label.parentNode.replaceChild(newLabel, label);
 
-                // Add proper event listeners for iOS compatibility
-                ['click', 'touchstart'].forEach(eventType => {
-                    newLabel.addEventListener(eventType, (event) => {
-                        // Prevent the event from bubbling up to the parent link
-                        event.preventDefault();
-                        event.stopPropagation();
-                        event.stopImmediatePropagation();
-                        
-                        // Only handle on the first event (to avoid double-firing)
-                        if (eventType === 'click' || !newLabel.dataset.touchHandled) {
-                            if (eventType === 'touchstart') {
-                                newLabel.dataset.touchHandled = 'true';
-                                // Clear the flag after a short delay
-                                setTimeout(() => {
-                                    delete newLabel.dataset.touchHandled;
-                                }, 500);
-                            }
-                            
-                            console.log(`${eventType} event triggered for manual: ${manualId}`);
-                            this.toggleOfflineStatus(manualId);
-                        }
-                    }, { passive: false });
-                });
+                // Add click/touch listeners to the entire label
+                newLabel.addEventListener('click', (event) => {
+                    console.log('Label click event for', manualId);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    this.toggleOfflineStatus(manualId);
+                }, { passive: false });
 
-                // Also add listeners to the checkbox itself for extra safety
+                newLabel.addEventListener('touchend', (event) => {
+                    console.log('Label touchend event for', manualId);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    this.toggleOfflineStatus(manualId);
+                }, { passive: false });
+
+                // Also add listeners to the checkbox specifically
                 const checkbox = newLabel.querySelector('.offline-checkbox');
                 if (checkbox) {
-                    ['click', 'change', 'touchstart'].forEach(eventType => {
-                        checkbox.addEventListener(eventType, (event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            event.stopImmediatePropagation();
-                            
-                            if (eventType === 'click' || eventType === 'change' || !checkbox.dataset.touchHandled) {
-                                if (eventType === 'touchstart') {
-                                    checkbox.dataset.touchHandled = 'true';
-                                    setTimeout(() => {
-                                        delete checkbox.dataset.touchHandled;
-                                    }, 500);
-                                }
-                                
-                                console.log(`Checkbox ${eventType} event triggered for manual: ${manualId}`);
-                                this.toggleOfflineStatus(manualId);
-                            }
-                        }, { passive: false });
-                    });
+                    checkbox.addEventListener('click', (event) => {
+                        console.log('Checkbox click event for', manualId);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.toggleOfflineStatus(manualId);
+                    }, { passive: false });
+
+                    checkbox.addEventListener('change', (event) => {
+                        console.log('Checkbox change event for', manualId);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.toggleOfflineStatus(manualId);
+                    }, { passive: false });
                 }
+
+                console.log('Events attached for', manualId);
             });
+            
+            console.log('All offline control listeners set up');
         };
 
         // Setup listeners when DOM is ready
@@ -175,6 +171,9 @@ class OfflineManager {
         } else {
             setupListeners();
         }
+        
+        // Also run after a short delay to ensure everything is ready
+        setTimeout(setupListeners, 1000);
     }
 
     // Download a manual for offline use

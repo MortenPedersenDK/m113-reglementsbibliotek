@@ -642,6 +642,9 @@ body.index-page .container {
     color: #ecf0f1;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 .manual-card:hover {
@@ -934,6 +937,7 @@ body.index-page .container {
     /* Prevent parent link from capturing clicks */
     position: relative;
     z-index: 10;
+    pointer-events: auto; /* Ensure this area is clickable */
 }
 
 .offline-control-label {
@@ -957,6 +961,12 @@ body.index-page .container {
 
 .offline-control-label:hover {
     color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.offline-control-label:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.98);
 }
 
 .offline-checkbox {
