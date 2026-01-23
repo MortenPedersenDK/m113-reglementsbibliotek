@@ -89,6 +89,9 @@ class OfflineManager {
             this.onOnlineStatusChanged(false);
         });
 
+        // Set up offline control event listeners (iOS-compatible)
+        this.setupOfflineControlListeners();
+
         // Load existing offline manuals
         await this.loadOfflineManuals();
         
@@ -98,6 +101,78 @@ class OfflineManager {
         // Check for updates if online
         if (this.isOnline) {
             setTimeout(() => this.checkForUpdates(), 5000); // Check after 5 seconds
+        }
+    }
+
+    // Set up event listeners for offline control checkboxes (iOS-compatible)
+    setupOfflineControlListeners() {
+        // Wait for DOM to be ready
+        const setupListeners = () => {
+            const offlineLabels = document.querySelectorAll('.offline-control-label');
+            
+            offlineLabels.forEach(label => {
+                const manualId = label.getAttribute('data-manual-id');
+                if (!manualId) return;
+
+                // Remove any existing listeners
+                const newLabel = label.cloneNode(true);
+                label.parentNode.replaceChild(newLabel, label);
+
+                // Add proper event listeners for iOS compatibility
+                ['click', 'touchstart'].forEach(eventType => {
+                    newLabel.addEventListener(eventType, (event) => {
+                        // Prevent the event from bubbling up to the parent link
+                        event.preventDefault();
+                        event.stopPropagation();
+                        event.stopImmediatePropagation();
+                        
+                        // Only handle on the first event (to avoid double-firing)
+                        if (eventType === 'click' || !newLabel.dataset.touchHandled) {
+                            if (eventType === 'touchstart') {
+                                newLabel.dataset.touchHandled = 'true';
+                                // Clear the flag after a short delay
+                                setTimeout(() => {
+                                    delete newLabel.dataset.touchHandled;
+                                }, 500);
+                            }
+                            
+                            console.log(`${eventType} event triggered for manual: ${manualId}`);
+                            this.toggleOfflineStatus(manualId);
+                        }
+                    }, { passive: false });
+                });
+
+                // Also add listeners to the checkbox itself for extra safety
+                const checkbox = newLabel.querySelector('.offline-checkbox');
+                if (checkbox) {
+                    ['click', 'change', 'touchstart'].forEach(eventType => {
+                        checkbox.addEventListener(eventType, (event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            event.stopImmediatePropagation();
+                            
+                            if (eventType === 'click' || eventType === 'change' || !checkbox.dataset.touchHandled) {
+                                if (eventType === 'touchstart') {
+                                    checkbox.dataset.touchHandled = 'true';
+                                    setTimeout(() => {
+                                        delete checkbox.dataset.touchHandled;
+                                    }, 500);
+                                }
+                                
+                                console.log(`Checkbox ${eventType} event triggered for manual: ${manualId}`);
+                                this.toggleOfflineStatus(manualId);
+                            }
+                        }, { passive: false });
+                    });
+                }
+            });
+        };
+
+        // Setup listeners when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupListeners);
+        } else {
+            setupListeners();
         }
     }
 

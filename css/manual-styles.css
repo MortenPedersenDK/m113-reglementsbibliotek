@@ -931,6 +931,9 @@ body.index-page .container {
     margin-top: auto;
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* Prevent parent link from capturing clicks */
+    position: relative;
+    z-index: 10;
 }
 
 .offline-control-label {
@@ -943,6 +946,13 @@ body.index-page .container {
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
     transition: color 0.3s ease;
+    /* iOS touch improvements */
+    padding: 8px;
+    margin: -8px;
+    min-height: 44px; /* iOS minimum touch target */
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 .offline-control-label:hover {
@@ -954,6 +964,10 @@ body.index-page .container {
     height: 16px;
     accent-color: #27ae60;
     cursor: pointer;
+    /* iOS improvements */
+    -webkit-appearance: checkbox;
+    margin: 0;
+    flex-shrink: 0;
 }
 
 .offline-label {
