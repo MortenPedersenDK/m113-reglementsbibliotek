@@ -10,6 +10,7 @@ class OfflineManager {
         this.isOnline = navigator.onLine;
         this.offlineManuals = new Set();
         this.pendingDownloads = new Set();
+        this.lastUpdateCheck = 0; // Track when we last checked for updates
         
         this.init();
     }
@@ -554,10 +555,23 @@ class OfflineManager {
     async checkForUpdates() {
         if (!this.isOnline) return;
 
+        // Rate limit: only check once per hour
+        const now = Date.now();
+        const oneHour = 60 * 60 * 1000;
+        if (this.lastUpdateCheck && (now - this.lastUpdateCheck) < oneHour) {
+            console.log('Update check skipped - checked recently');
+            return;
+        }
+
+        this.lastUpdateCheck = now;
+
         try {
             const result = await this.sendMessageToSW('check-version');
             if (result.success && result.hasUpdate) {
+                console.log('Update available:', result.latestVersion);
                 this.showUpdateAvailable(result.latestVersion, result.updateInfo);
+            } else {
+                console.log('No update available');
             }
         } catch (error) {
             console.log('Could not check for updates:', error);
@@ -566,10 +580,17 @@ class OfflineManager {
 
     // Show update available notification
     showUpdateAvailable(version, updateInfo) {
-        const updateMessage = `En ny version (${version}) er tilgængelig. Vil du opdatere?`;
+        // Use notification instead of blocking confirm dialog
+        this.showNotification(
+            `En ny version (${version}) er tilgængelig. Klik "Genindlæs" for at opdatere.`,
+            'info'
+        );
         
-        if (confirm(updateMessage)) {
-            this.performUpdate();
+        // Make the reload link more prominent when update is available
+        const reloadLink = document.getElementById('reload-link');
+        if (reloadLink) {
+            reloadLink.classList.add('update-available');
+            reloadLink.title = `Opdater til version ${version}`;
         }
     }
 
