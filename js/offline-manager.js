@@ -90,9 +90,6 @@ class OfflineManager {
             this.onOnlineStatusChanged(false);
         });
 
-        // Set up offline control event listeners (iOS-compatible)
-        this.setupOfflineControlListeners();
-
         // Load existing offline manuals
         await this.loadOfflineManuals();
         
@@ -103,77 +100,6 @@ class OfflineManager {
         if (this.isOnline) {
             setTimeout(() => this.checkForUpdates(), 5000); // Check after 5 seconds
         }
-    }
-
-    // Set up event listeners for offline control checkboxes (iOS-compatible)
-    setupOfflineControlListeners() {
-        // Wait for DOM to be ready
-        const setupListeners = () => {
-            console.log('Setting up offline control listeners...');
-            const offlineLabels = document.querySelectorAll('.offline-control-label');
-            console.log('Found', offlineLabels.length, 'offline control labels');
-            
-            offlineLabels.forEach((label, index) => {
-                const manualId = label.getAttribute('data-manual-id');
-                console.log(`Setting up label ${index}: manualId = ${manualId}`);
-                
-                if (!manualId) {
-                    console.warn('No manual ID found for label', label);
-                    return;
-                }
-
-                // Remove any existing listeners by cloning the element
-                const newLabel = label.cloneNode(true);
-                label.parentNode.replaceChild(newLabel, label);
-
-                // Add click/touch listeners to the entire label
-                newLabel.addEventListener('click', (event) => {
-                    console.log('Label click event for', manualId);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    this.toggleOfflineStatus(manualId);
-                }, { passive: false });
-
-                newLabel.addEventListener('touchend', (event) => {
-                    console.log('Label touchend event for', manualId);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    this.toggleOfflineStatus(manualId);
-                }, { passive: false });
-
-                // Also add listeners to the checkbox specifically
-                const checkbox = newLabel.querySelector('.offline-checkbox');
-                if (checkbox) {
-                    checkbox.addEventListener('click', (event) => {
-                        console.log('Checkbox click event for', manualId);
-                        event.preventDefault();
-                        event.stopPropagation();
-                        this.toggleOfflineStatus(manualId);
-                    }, { passive: false });
-
-                    checkbox.addEventListener('change', (event) => {
-                        console.log('Checkbox change event for', manualId);
-                        event.preventDefault();
-                        event.stopPropagation();
-                        this.toggleOfflineStatus(manualId);
-                    }, { passive: false });
-                }
-
-                console.log('Events attached for', manualId);
-            });
-            
-            console.log('All offline control listeners set up');
-        };
-
-        // Setup listeners when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setupListeners);
-        } else {
-            setupListeners();
-        }
-        
-        // Also run after a short delay to ensure everything is ready
-        setTimeout(setupListeners, 1000);
     }
 
     // Download a manual for offline use
@@ -484,36 +410,70 @@ class OfflineManager {
 
     // Update UI for a specific manual
     updateManualUI(manualId, status) {
+        // Update front page checkboxes (if they exist)
         const checkbox = document.querySelector(`[data-manual-id="${manualId}"] .offline-checkbox`);
         const label = document.querySelector(`[data-manual-id="${manualId}"] .offline-label`);
         
-        if (!checkbox || !label) return;
-
-        switch (status) {
-            case 'downloading':
-                checkbox.checked = false;
-                checkbox.disabled = true;
-                label.textContent = 'Downloader...';
-                label.classList.add('downloading');
-                label.classList.remove('offline');
-                break;
-                
-            case 'offline':
-                checkbox.checked = true;
-                checkbox.disabled = false;
-                label.textContent = 'Tilgængelig offline';
-                label.classList.remove('downloading');
-                label.classList.add('offline');
-                break;
-                
-            case 'online':
-            default:
-                checkbox.checked = false;
-                checkbox.disabled = false;
-                label.textContent = 'Tilgængelig offline';
-                label.classList.remove('downloading', 'offline');
-                break;
+        if (checkbox && label) {
+            switch (status) {
+                case 'downloading':
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                    label.textContent = 'Downloader...';
+                    label.classList.add('downloading');
+                    label.classList.remove('offline');
+                    break;
+                    
+                case 'offline':
+                    checkbox.checked = true;
+                    checkbox.disabled = false;
+                    label.textContent = 'Tilgængelig offline';
+                    label.classList.remove('downloading');
+                    label.classList.add('offline');
+                    break;
+                    
+                case 'online':
+                default:
+                    checkbox.checked = false;
+                    checkbox.disabled = false;
+                    label.textContent = 'Tilgængelig offline';
+                    label.classList.remove('downloading', 'offline');
+                    break;
+            }
         }
+        
+        // Update manual page offline button (if we're on that page)
+        const offlineButton = document.querySelector(`#offlineBtn[data-manual-id="${manualId}"]`);
+        if (offlineButton) {
+            switch (status) {
+                case 'downloading':
+                    offlineButton.textContent = '⏳ Downloader...';
+                    offlineButton.className = 'offline-btn downloading';
+                    offlineButton.disabled = true;
+                    break;
+                    
+                case 'offline':
+                    offlineButton.textContent = '✓ Offline';
+                    offlineButton.className = 'offline-btn offline';
+                    offlineButton.disabled = false;
+                    offlineButton.title = 'Klik for at fjerne offline adgang';
+                    break;
+                    
+                case 'online':
+                default:
+                    offlineButton.textContent = '⬇ Offline';
+                    offlineButton.className = 'offline-btn';
+                    offlineButton.disabled = false;
+                    offlineButton.title = 'Klik for at downloade til offline brug';
+                    break;
+            }
+        }
+        
+        // Notify manual viewer app if it exists
+        if (window.app && typeof window.app.updateOfflineButtonStatus === 'function') {
+            window.app.updateOfflineButtonStatus();
+        }
+    }
     }
 
     // Update UI for all manuals

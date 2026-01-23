@@ -31,8 +31,7 @@ class ManualViewer {
         this.pageInfo = document.getElementById('pageInfo');
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
-        
-
+        this.offlineBtn = document.getElementById('offlineBtn');
     }
 
     bindEvents() {
@@ -97,6 +96,17 @@ class ManualViewer {
         // Navigation
         this.prevBtn.addEventListener('click', () => this.navigateToPage(this.currentPage - 1));
         this.nextBtn.addEventListener('click', () => this.navigateToPage(this.currentPage + 1));
+
+        // Offline button
+        if (this.offlineBtn) {
+            this.offlineBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleOfflineStatus();
+            });
+            
+            // Initialize offline status
+            this.updateOfflineButtonStatus();
+        }
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
@@ -901,6 +911,78 @@ class ManualViewer {
                 <p>${message}</p>
             </div>
         `;
+    }
+    
+    // Offline functionality methods
+    async toggleOfflineStatus() {
+        const manualId = this.offlineBtn.getAttribute('data-manual-id');
+        if (!manualId) return;
+        
+        // Check if offline manager is available
+        if (typeof window.offlineManager === 'undefined') {
+            this.showOfflineError('Offline funktionalitet er ikke tilgængelig');
+            return;
+        }
+        
+        try {
+            await window.offlineManager.toggleOfflineStatus(manualId);
+            this.updateOfflineButtonStatus();
+        } catch (error) {
+            console.error('Failed to toggle offline status:', error);
+            this.showOfflineError('Kunne ikke opdatere offline status');
+        }
+    }
+    
+    async updateOfflineButtonStatus() {
+        if (!this.offlineBtn) return;
+        
+        const manualId = this.offlineBtn.getAttribute('data-manual-id');
+        if (!manualId) return;
+        
+        // Check if offline manager is available
+        if (typeof window.offlineManager === 'undefined') {
+            this.offlineBtn.textContent = 'Offline N/A';
+            this.offlineBtn.className = 'offline-btn error';
+            this.offlineBtn.disabled = true;
+            return;
+        }
+        
+        try {
+            const isOffline = window.offlineManager.offlineManuals.has(manualId);
+            const isDownloading = window.offlineManager.pendingDownloads.has(manualId);
+            
+            if (isDownloading) {
+                this.offlineBtn.textContent = '⏳ Downloader...';
+                this.offlineBtn.className = 'offline-btn downloading';
+                this.offlineBtn.disabled = true;
+            } else if (isOffline) {
+                this.offlineBtn.textContent = '✓ Offline';
+                this.offlineBtn.className = 'offline-btn offline';
+                this.offlineBtn.disabled = false;
+                this.offlineBtn.title = 'Klik for at fjerne offline adgang';
+            } else {
+                this.offlineBtn.textContent = '⬇ Offline';
+                this.offlineBtn.className = 'offline-btn';
+                this.offlineBtn.disabled = false;
+                this.offlineBtn.title = 'Klik for at downloade til offline brug';
+            }
+        } catch (error) {
+            console.error('Failed to update offline button status:', error);
+            this.offlineBtn.textContent = 'Offline Error';
+            this.offlineBtn.className = 'offline-btn error';
+            this.offlineBtn.disabled = true;
+        }
+    }
+    
+    showOfflineError(message) {
+        // Show a temporary notification or update button text
+        const originalText = this.offlineBtn.textContent;
+        this.offlineBtn.textContent = 'Error';
+        this.offlineBtn.className = 'offline-btn error';
+        
+        setTimeout(() => {
+            this.updateOfflineButtonStatus();
+        }, 3000);
     }
     
     // Cleanup method to prevent memory leaks
