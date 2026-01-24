@@ -21,6 +21,7 @@ class OfflineManager {
     async init() {
         // Log environment information for debugging
         this.logEnvironmentInfo();
+        if (window.debugLog) window.debugLog('Starting OfflineManager init...');
         
         // DEBUG: Check for duplicate elements
         setTimeout(() => {
@@ -61,7 +62,7 @@ class OfflineManager {
                 }
 
                 this.swRegistration = await navigator.serviceWorker.register('/sw.js');
-                console.log('Service Worker registered successfully');
+                if (window.debugLog) window.debugLog('Service Worker registered');
                 
                 // Wait for service worker to become ready (especially important on iOS/Safari)
                 await this.waitForServiceWorkerReady();
@@ -72,7 +73,7 @@ class OfflineManager {
                 });
                 
             } catch (error) {
-                console.error('Service Worker registration failed:', error);
+                if (window.debugLog) window.debugLog('SW registration failed: ' + error.message);
                 // Only show error for offline functionality, not for basic reload
                 this.serviceWorkerFailed = true;
                 this.handleServiceWorkerError(error);
@@ -108,7 +109,7 @@ class OfflineManager {
                     if (mutation.type === 'childList' || mutation.type === 'characterData') {
                         // If someone tries to set it to "Offline N/A", restore correct status
                         if (statusElement.textContent === 'Offline N/A') {
-                            console.warn('Detected "Offline N/A" in connection status - correcting...');
+                            if (window.debugLog) window.debugLog('DETECTED: "Offline N/A" - correcting!');
                             this.onOnlineStatusChanged(this.isOnline);
                         }
                     }
@@ -124,7 +125,8 @@ class OfflineManager {
         
         // Mark that offline manager is now ready
         window.offlineManager = this;
-        console.log('OfflineManager initialization completed');
+        if (window.debugLog) window.debugLog('OfflineManager ready!');
+        if (window.debugLog) window.debugLog('Service worker status: ' + (this.swRegistration ? 'Registered' : 'Failed'));
     }
 
     // Download a manual for offline use
@@ -355,6 +357,7 @@ class OfflineManager {
 
         if (!this.swRegistration.active) {
             const message = isIOS ? 'Service worker failed to become active within timeout on iOS. This may be due to Private Browsing mode or iOS limitations.' : 'Service worker failed to become active within timeout';
+            if (window.debugLog) window.debugLog('SW TIMEOUT: ' + message);
             console.warn(message);
             // Don't throw on iOS, as service workers have limitations
             if (!isIOS) {
@@ -523,17 +526,17 @@ class OfflineManager {
         const statusElement = document.getElementById('connection-status');
         const reloadLink = document.getElementById('reload-link');
         
-        console.log('Network status changed to:', isOnline ? 'Online' : 'Offline');
-        console.log('Status element found:', statusElement ? 'Yes' : 'No');
+        if (window.debugLog) window.debugLog('Network status: ' + (isOnline ? 'Online' : 'Offline'));
+        if (window.debugLog) window.debugLog('Status element: ' + (statusElement ? 'Found' : 'NOT FOUND'));
         
         if (statusElement) {
             // Clear any existing classes and set the correct ones
             statusElement.className = '';
             statusElement.textContent = isOnline ? 'Online' : 'Offline';
             statusElement.className = isOnline ? 'status-online' : 'status-offline';
-            console.log('Status element updated to:', statusElement.textContent, 'with class:', statusElement.className);
+            if (window.debugLog) window.debugLog('Status updated: ' + statusElement.textContent + ' (' + statusElement.className + ')');
         } else {
-            console.warn('connection-status element not found in DOM!');
+            if (window.debugLog) window.debugLog('ERROR: connection-status element missing!');
         }
 
         if (reloadLink) {
@@ -829,8 +832,10 @@ class OfflineManager {
 // Initialize offline manager when script loads
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
+        if (window.debugLog) window.debugLog('Creating OfflineManager (DOMContentLoaded)...');
         window.offlineManager = new OfflineManager();
     });
 } else {
+    if (window.debugLog) window.debugLog('Creating OfflineManager (immediate)...');
     window.offlineManager = new OfflineManager();
 }

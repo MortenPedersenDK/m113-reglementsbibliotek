@@ -957,17 +957,20 @@ class ManualViewer {
         
         // Check if offline manager is available
         if (typeof window.offlineManager === 'undefined') {
+            if (window.debugLog) window.debugLog('OfflineManager undefined after ' + attempts + ' attempts');
             // Only show N/A if service worker completely failed, not just slow loading
             if (window.offlineManager !== null) {
                 this.offlineBtn.textContent = 'Offline N/A';
                 this.offlineBtn.className = 'offline-btn error';
                 this.offlineBtn.disabled = true;
                 this.offlineBtn.title = isIOS ? 'Offline funktionalitet ikke tilgængelig. Sikre dig at du ikke er i Private Browsing mode.' : 'Offline funktionalitet ikke tilgængelig';
+                if (window.debugLog) window.debugLog('Set button to: Offline N/A (failed)');
             } else {
                 // Still loading, show loading state
                 this.offlineBtn.textContent = '⏳ Loader...';
                 this.offlineBtn.className = 'offline-btn downloading';
                 this.offlineBtn.disabled = true;
+                if (window.debugLog) window.debugLog('Still loading, retrying in 3s...');
                 // Retry in a few seconds
                 setTimeout(() => this.updateOfflineButtonStatus(), 3000);
             }
