@@ -2,12 +2,12 @@
   "name": "PMV M113 Reglementsbibliotek",
   "short_name": "M113 Manualer",
   "description": "Søgbare PMV M113 reglementer fra Pansermuseet",
-  "start_url": "/",
+  "start_url": "/m113-reglementsbibliotek/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2c5530",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/m113-reglementsbibliotek/",
   "lang": "da",
   "categories": ["reference", "utilities"],
   "icons": [
@@ -50,14 +50,14 @@
       "name": "HRN 113-001",
       "short_name": "113-001",
       "description": "PMV M113 familie reglement",
-      "url": "/HRN113-001.html",
+      "url": "/m113-reglementsbibliotek/HRN113-001.html",
       "icons": [{ "src": "favicon.svg", "sizes": "any" }]
     },
     {
       "name": "HRN 113-002", 
       "short_name": "113-002",
       "description": "PMV M113 G3/G4 DK reglement",
-      "url": "/HRN113-002.html",
+      "url": "/m113-reglementsbibliotek/HRN113-002.html",
       "icons": [{ "src": "favicon.svg", "sizes": "any" }]
     }
   ]
