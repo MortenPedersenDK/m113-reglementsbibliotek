@@ -551,7 +551,6 @@ class OfflineManager {
             window.app.updateOfflineButtonStatus();
         }
     }
-    }
 
     // Update UI for all manuals
     updateAllManualUIs() {
