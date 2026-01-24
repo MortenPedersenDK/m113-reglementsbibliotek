@@ -64,6 +64,12 @@
             </div>
         </div>
 
+    <!-- Connection Status Indicator -->
+    <div class="connection-status">
+        <span id="connection-status" class="status-online">Online</span>
+        <a href="#" id="reload-link" class="reload-link" onclick="if(window.offlineManager) window.offlineManager.performUpdate(); return false;">Genindlæs</a>
+    </div>
+
     <script>
         // Configuration for this manual
         window.MANUAL_CONFIG = {

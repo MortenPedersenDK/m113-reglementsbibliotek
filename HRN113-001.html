@@ -69,6 +69,12 @@
         </div>
     </div>
 
+    <!-- Connection Status Indicator -->
+    <div class="connection-status">
+        <span id="connection-status" class="status-online">Online</span>
+        <a href="#" id="reload-link" class="reload-link" onclick="if(window.offlineManager) window.offlineManager.performUpdate(); return false;">Genindlæs</a>
+    </div>
+
     <!-- Debug Panel for iPad -->
     <div id="debug-panel" style="position: fixed; bottom: 40px; left: 10px; background: rgba(0,0,0,0.9); color: white; padding: 10px; border-radius: 5px; font-size: 11px; max-width: 300px; max-height: 200px; overflow-y: auto; z-index: 9999; font-family: monospace; display: none;">
         <div style="font-weight: bold; margin-bottom: 5px;">Debug Info <button onclick="document.getElementById('debug-panel').style.display='none'" style="float: right; background: none; border: none; color: white;">×</button></div>

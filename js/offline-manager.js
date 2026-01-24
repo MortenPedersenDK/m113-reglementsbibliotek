@@ -101,7 +101,7 @@ class OfflineManager {
                 }
 
                 if (window.debugLog) window.debugLog('Registering service worker...');
-                this.swRegistration = await navigator.serviceWorker.register('/sw.js');
+                this.swRegistration = await navigator.serviceWorker.register('./sw.js');
                 if (window.debugLog) window.debugLog('Service Worker registered');
                 
                 // Wait for service worker to become ready (especially important on iOS/Safari)
@@ -577,7 +577,7 @@ class OfflineManager {
             statusElement.className = isOnline ? 'status-online' : 'status-offline';
             if (window.debugLog) window.debugLog('Status updated: ' + statusElement.textContent + ' (' + statusElement.className + ')');
         } else {
-            if (window.debugLog) window.debugLog('ERROR: connection-status element missing!');
+            if (window.debugLog) window.debugLog('WARNING: connection-status element missing from this page!');
         }
 
         if (reloadLink) {
