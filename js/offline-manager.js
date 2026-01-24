@@ -12,6 +12,9 @@ class OfflineManager {
         this.pendingDownloads = new Set();
         this.lastUpdateCheck = 0; // Track when we last checked for updates
         
+        // Mark that offline manager is initializing
+        window.offlineManager = null; // Set to null to indicate loading
+        
         this.init();
     }
 
@@ -96,10 +99,32 @@ class OfflineManager {
         // Set initial online status and reload link visibility
         this.onOnlineStatusChanged(this.isOnline);
         
+        // Ensure connection status is never overwritten by offline button status
+        const statusElement = document.getElementById('connection-status');
+        if (statusElement) {
+            // Create a mutation observer to prevent unwanted status changes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                        // If someone tries to set it to "Offline N/A", restore correct status
+                        if (statusElement.textContent === 'Offline N/A') {
+                            console.warn('Detected "Offline N/A" in connection status - correcting...');
+                            this.onOnlineStatusChanged(this.isOnline);
+                        }
+                    }
+                });
+            });
+            observer.observe(statusElement, { childList: true, subtree: true, characterData: true });
+        }
+        
         // Check for updates if online
         if (this.isOnline) {
             setTimeout(() => this.checkForUpdates(), 5000); // Check after 5 seconds
         }
+        
+        // Mark that offline manager is now ready
+        window.offlineManager = this;
+        console.log('OfflineManager initialization completed');
     }
 
     // Download a manual for offline use
@@ -319,8 +344,9 @@ class OfflineManager {
             });
         }
 
-        // Wait up to 10 seconds for service worker to become ready
-        const timeout = 10000; // 10 seconds
+        // Wait up to 15 seconds for service worker to become ready on iOS, 10 seconds on others
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const timeout = isIOS ? 15000 : 10000;
         const startTime = Date.now();
         
         while (!this.swRegistration.active && (Date.now() - startTime) < timeout) {
@@ -328,7 +354,13 @@ class OfflineManager {
         }
 
         if (!this.swRegistration.active) {
-            throw new Error('Service worker failed to become active within timeout');
+            const message = isIOS ? 'Service worker failed to become active within timeout on iOS. This may be due to Private Browsing mode or iOS limitations.' : 'Service worker failed to become active within timeout';
+            console.warn(message);
+            // Don't throw on iOS, as service workers have limitations
+            if (!isIOS) {
+                throw new Error(message);
+            }
+            return false; // Return false on iOS timeout instead of throwing
         }
 
         console.log('Service Worker is ready');
@@ -491,9 +523,17 @@ class OfflineManager {
         const statusElement = document.getElementById('connection-status');
         const reloadLink = document.getElementById('reload-link');
         
+        console.log('Network status changed to:', isOnline ? 'Online' : 'Offline');
+        console.log('Status element found:', statusElement ? 'Yes' : 'No');
+        
         if (statusElement) {
+            // Clear any existing classes and set the correct ones
+            statusElement.className = '';
             statusElement.textContent = isOnline ? 'Online' : 'Offline';
             statusElement.className = isOnline ? 'status-online' : 'status-offline';
+            console.log('Status element updated to:', statusElement.textContent, 'with class:', statusElement.className);
+        } else {
+            console.warn('connection-status element not found in DOM!');
         }
 
         if (reloadLink) {
@@ -787,11 +827,10 @@ class OfflineManager {
 }
 
 // Initialize offline manager when script loads
-let offlineManager;
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        offlineManager = new OfflineManager();
+        window.offlineManager = new OfflineManager();
     });
 } else {
-    offlineManager = new OfflineManager();
+    window.offlineManager = new OfflineManager();
 }

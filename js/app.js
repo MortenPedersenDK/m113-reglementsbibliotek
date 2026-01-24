@@ -946,19 +946,31 @@ class ManualViewer {
         const manualId = this.offlineBtn.getAttribute('data-manual-id');
         if (!manualId) return;
         
-        // Wait for offline manager to be available (up to 5 seconds)
+        // Wait for offline manager to be available (up to 10 seconds on iOS, 5 on others)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const maxAttempts = isIOS ? 100 : 50; // 10 seconds on iOS, 5 seconds on others
         let attempts = 0;
-        while (typeof window.offlineManager === 'undefined' && attempts < 50) {
+        while (typeof window.offlineManager === 'undefined' && attempts < maxAttempts) {
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
         }
         
         // Check if offline manager is available
         if (typeof window.offlineManager === 'undefined') {
-            this.offlineBtn.textContent = 'Offline N/A';
-            this.offlineBtn.className = 'offline-btn error';
-            this.offlineBtn.disabled = true;
-            this.offlineBtn.title = 'Offline funktionalitet ikke tilgængelig';
+            // Only show N/A if service worker completely failed, not just slow loading
+            if (window.offlineManager !== null) {
+                this.offlineBtn.textContent = 'Offline N/A';
+                this.offlineBtn.className = 'offline-btn error';
+                this.offlineBtn.disabled = true;
+                this.offlineBtn.title = isIOS ? 'Offline funktionalitet ikke tilgængelig. Sikre dig at du ikke er i Private Browsing mode.' : 'Offline funktionalitet ikke tilgængelig';
+            } else {
+                // Still loading, show loading state
+                this.offlineBtn.textContent = '⏳ Loader...';
+                this.offlineBtn.className = 'offline-btn downloading';
+                this.offlineBtn.disabled = true;
+                // Retry in a few seconds
+                setTimeout(() => this.updateOfflineButtonStatus(), 3000);
+            }
             return;
         }
         

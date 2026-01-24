@@ -1,17 +1,20 @@
 {
-  "version": "1.0.1",
-  "releaseDate": "2026-01-22",
-  "description": "Initial offline-capable version with selective manual caching",
+  "version": "1.0.2",
+  "releaseDate": "2026-01-24",
+  "description": "iPad offline status fix and improved service worker handling",
   "features": [
     "Offline functionality for selected manuals",
     "Progressive Web App (PWA) support",
     "Automatic update checking",
-    "Storage management"
+    "Storage management",
+    "Improved iPad/iOS compatibility"
   ],
   "changes": [
-    "Added offline support for individual manuals",
-    "Implemented service worker for caching",
-    "Added PWA manifest for installation",
-    "Added update notification system"
+    "Fixed 'Offline N/A' status issue on iPad",
+    "Increased service worker timeout for iOS devices",
+    "Improved connection status handling",
+    "Added safeguards against status interference",
+    "Enhanced iOS-specific error handling",
+    "Better debugging and logging for status changes"
   ]
 }

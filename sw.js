@@ -3,7 +3,7 @@
  * Handles selective offline caching of manuals and update checking
  */
 
-const CACHE_VERSION = '1.0.1';
+const CACHE_VERSION = '1.0.2';
 const CORE_CACHE_NAME = `m113-core-${CACHE_VERSION}`;
 const VERSION_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 
