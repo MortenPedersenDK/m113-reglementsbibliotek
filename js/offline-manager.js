@@ -3,22 +3,45 @@
  * Handles selective manual caching and offline functionality
  */
 
+// Debug script loading
+if (typeof window !== 'undefined' && window.debugLog) {
+    window.debugLog('offline-manager.js script loaded');
+} else {
+    console.log('offline-manager.js script loaded (no debugLog yet)');
+}
+
 class OfflineManager {
     constructor() {
-        this.swRegistration = null;
-        this.serviceWorkerFailed = false;
-        this.isOnline = navigator.onLine;
-        this.offlineManuals = new Set();
-        this.pendingDownloads = new Set();
-        this.lastUpdateCheck = 0; // Track when we last checked for updates
-        
-        // Don't set window.offlineManager yet - wait until init is complete
-        
-        this.init().catch(error => {
-            if (window.debugLog) window.debugLog('OfflineManager init failed: ' + error.message);
-            // Still set the instance even if init fails, so basic functions work
+        try {
+            if (window.debugLog) window.debugLog('OfflineManager constructor started');
+            
+            this.swRegistration = null;
+            this.serviceWorkerFailed = false;
+            this.isOnline = navigator.onLine;
+            this.offlineManuals = new Set();
+            this.pendingDownloads = new Set();
+            this.lastUpdateCheck = 0; // Track when we last checked for updates
+            
+            if (window.debugLog) window.debugLog('OfflineManager properties set');
+            
+            // Don't set window.offlineManager yet - wait until init is complete
+            
+            this.init().catch(error => {
+                if (window.debugLog) window.debugLog('OfflineManager init failed: ' + error.message);
+                console.error('OfflineManager init error:', error);
+                // Still set the instance even if init fails, so basic functions work
+                window.offlineManager = this;
+            });
+            
+            if (window.debugLog) window.debugLog('OfflineManager constructor completed');
+        } catch (error) {
+            if (window.debugLog) window.debugLog('OfflineManager constructor error: ' + error.message);
+            console.error('OfflineManager constructor error:', error);
+            // Set a minimal instance anyway
+            this.isOnline = navigator.onLine;
+            this.serviceWorkerFailed = true;
             window.offlineManager = this;
-        });
+        }
     }
 
     async init() {
@@ -837,21 +860,58 @@ class OfflineManager {
     }
 }
 
+// Debug before initialization
+if (typeof window !== 'undefined' && window.debugLog) {
+    window.debugLog('Reached initialization section');
+} else {
+    console.log('Reached initialization section (no debugLog)');
+}
+
 // Initialize offline manager when script loads
 if (document.readyState === 'loading') {
+    if (typeof window !== 'undefined' && window.debugLog) {
+        window.debugLog('Document loading - adding DOMContentLoaded listener');
+    }
     document.addEventListener('DOMContentLoaded', () => {
-        if (window.debugLog) window.debugLog('Creating OfflineManager (DOMContentLoaded)...');
-        if (typeof window.offlineManager === 'undefined') {
-            window.offlineManager = new OfflineManager();
-        } else {
-            if (window.debugLog) window.debugLog('OfflineManager already exists');
+        try {
+            if (window.debugLog) window.debugLog('DOMContentLoaded fired');
+            if (typeof window.offlineManager === 'undefined') {
+                if (window.debugLog) window.debugLog('Creating OfflineManager (DOMContentLoaded)...');
+                window.offlineManager = new OfflineManager();
+                if (window.debugLog) window.debugLog('OfflineManager created successfully');
+            } else {
+                if (window.debugLog) window.debugLog('OfflineManager already exists (DOMContentLoaded)');
+            }
+        } catch (error) {
+            if (window.debugLog) window.debugLog('Error creating OfflineManager (DOMContentLoaded): ' + error.message);
+            console.error('OfflineManager creation error (DOMContentLoaded):', error);
         }
     });
 } else {
-    if (window.debugLog) window.debugLog('Creating OfflineManager (immediate)...');
-    if (typeof window.offlineManager === 'undefined') {
-        window.offlineManager = new OfflineManager();
-    } else {
-        if (window.debugLog) window.debugLog('OfflineManager already exists');
+    try {
+        if (typeof window !== 'undefined' && window.debugLog) {
+            window.debugLog('Document ready - creating immediately');
+        }
+        if (typeof window.offlineManager === 'undefined') {
+            if (window.debugLog) window.debugLog('Creating OfflineManager (immediate)...');
+            window.offlineManager = new OfflineManager();
+            if (window.debugLog) window.debugLog('OfflineManager created successfully (immediate)');
+        } else {
+            if (window.debugLog) window.debugLog('OfflineManager already exists (immediate)');
+        }
+    } catch (error) {
+        if (window.debugLog) window.debugLog('Error creating OfflineManager (immediate): ' + error.message);
+        console.error('OfflineManager creation error (immediate):', error);
     }
+}
+
+// Immediate fallback - try to create instance right away as a last resort
+try {
+    if (typeof window !== 'undefined' && typeof window.offlineManager === 'undefined') {
+        if (window.debugLog) window.debugLog('Fallback: Creating OfflineManager immediately');
+        window.offlineManager = new OfflineManager();
+    }
+} catch (error) {
+    if (window.debugLog) window.debugLog('Fallback creation failed: ' + error.message);
+    console.error('Fallback OfflineManager creation failed:', error);
 }
