@@ -12,10 +12,13 @@ class OfflineManager {
         this.pendingDownloads = new Set();
         this.lastUpdateCheck = 0; // Track when we last checked for updates
         
-        // Mark that offline manager is initializing
-        window.offlineManager = null; // Set to null to indicate loading
+        // Don't set window.offlineManager yet - wait until init is complete
         
-        this.init();
+        this.init().catch(error => {
+            if (window.debugLog) window.debugLog('OfflineManager init failed: ' + error.message);
+            // Still set the instance even if init fails, so basic functions work
+            window.offlineManager = this;
+        });
     }
 
     async init() {
@@ -56,11 +59,14 @@ class OfflineManager {
         // Register service worker with iOS-specific handling
         if ('serviceWorker' in navigator) {
             try {
+                if (window.debugLog) window.debugLog('Checking service worker support...');
+                
                 // Check if we're in a context where service workers work (not private browsing on iOS)
                 if (navigator.serviceWorker.controller === null && !window.isSecureContext) {
                     throw new Error('Service workers require HTTPS or localhost');
                 }
 
+                if (window.debugLog) window.debugLog('Registering service worker...');
                 this.swRegistration = await navigator.serviceWorker.register('/sw.js');
                 if (window.debugLog) window.debugLog('Service Worker registered');
                 
@@ -74,12 +80,12 @@ class OfflineManager {
                 
             } catch (error) {
                 if (window.debugLog) window.debugLog('SW registration failed: ' + error.message);
-                // Only show error for offline functionality, not for basic reload
+                // Don't throw - continue without service worker
                 this.serviceWorkerFailed = true;
                 this.handleServiceWorkerError(error);
             }
         } else {
-            console.warn('Service Workers are not supported in this browser');
+            if (window.debugLog) window.debugLog('Service Workers not supported');
             this.handleServiceWorkerUnsupported();
         }
 
@@ -127,6 +133,8 @@ class OfflineManager {
         window.offlineManager = this;
         if (window.debugLog) window.debugLog('OfflineManager ready!');
         if (window.debugLog) window.debugLog('Service worker status: ' + (this.swRegistration ? 'Registered' : 'Failed'));
+        
+        return this; // Return this for promise chaining
     }
 
     // Download a manual for offline use
@@ -833,9 +841,17 @@ class OfflineManager {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         if (window.debugLog) window.debugLog('Creating OfflineManager (DOMContentLoaded)...');
-        window.offlineManager = new OfflineManager();
+        if (typeof window.offlineManager === 'undefined') {
+            window.offlineManager = new OfflineManager();
+        } else {
+            if (window.debugLog) window.debugLog('OfflineManager already exists');
+        }
     });
 } else {
     if (window.debugLog) window.debugLog('Creating OfflineManager (immediate)...');
-    window.offlineManager = new OfflineManager();
+    if (typeof window.offlineManager === 'undefined') {
+        window.offlineManager = new OfflineManager();
+    } else {
+        if (window.debugLog) window.debugLog('OfflineManager already exists');
+    }
 }
