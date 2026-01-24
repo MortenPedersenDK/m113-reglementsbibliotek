@@ -120,7 +120,31 @@
             title: 'HRN 113-002 - PMV M113 G3 DK'
         };
     </script>
-    <script src="js/offline-manager.js"></script>
-    <script src="js/app.js"></script>
+    
+    <script>
+        // Track script loading
+        window.addEventListener('error', function(e) {
+            if (window.debugLog) {
+                window.debugLog('Script error: ' + e.filename + ' - ' + e.message);
+            }
+        });
+        
+        // Test before loading offline-manager.js
+        if (window.debugLog) {
+            window.debugLog('About to load offline-manager.js');
+        }
+    </script>
+    
+    <script src="js/offline-manager.js" onload="if(window.debugLog) window.debugLog('offline-manager.js loaded successfully')" onerror="if(window.debugLog) window.debugLog('ERROR: offline-manager.js failed to load')"></script>
+    <script>
+        // Check if OfflineManager class is available after script load
+        setTimeout(function() {
+            if (window.debugLog) {
+                window.debugLog('OfflineManager class exists: ' + (typeof OfflineManager !== 'undefined'));
+                window.debugLog('window.offlineManager exists: ' + (typeof window.offlineManager !== 'undefined'));
+            }
+        }, 100);
+    </script>
+    <script src="js/app.js" onload="if(window.debugLog) window.debugLog('app.js loaded successfully')" onerror="if(window.debugLog) window.debugLog('ERROR: app.js failed to load')"></script>
 </body>
 </html>

@@ -3,6 +3,17 @@
  * Handles selective manual caching and offline functionality
  */
 
+// Simple test - this should always execute if script loads
+try {
+    if (typeof window !== 'undefined' && window.debugLog) {
+        window.debugLog('offline-manager.js script started executing');
+    } else {
+        console.log('offline-manager.js script started executing (no debugLog)');
+    }
+} catch (e) {
+    console.error('Error in script start test:', e);
+}
+
 // Debug script loading
 if (typeof window !== 'undefined' && window.debugLog) {
     window.debugLog('offline-manager.js script loaded');
@@ -857,6 +868,26 @@ class OfflineManager {
     // Get list of offline manuals
     getOfflineManuals() {
         return Array.from(this.offlineManuals);
+    }
+}
+
+// Simple test function to verify script execution
+function testOfflineManagerScript() {
+    if (window.debugLog) {
+        window.debugLog('Test function executed successfully');
+    }
+    return true;
+}
+
+// Try to execute the test function immediately
+try {
+    testOfflineManagerScript();
+    if (window.debugLog) {
+        window.debugLog('Test function call successful');
+    }
+} catch (error) {
+    if (window.debugLog) {
+        window.debugLog('Test function call failed: ' + error.message);
     }
 }
 
