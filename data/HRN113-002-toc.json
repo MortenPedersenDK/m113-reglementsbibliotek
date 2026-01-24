@@ -425,6 +425,11 @@
       "name": "7. kørsel",
       "sections": [
         {
+          "number": "701",
+          "name": "Start af motor",
+          "filename": "HRN113_7-01"
+        },
+        {
           "number": "702",
           "name": "Opvarmning af motor /transmission",
           "filename": "HRN113_7-03"
