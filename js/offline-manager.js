@@ -296,8 +296,13 @@ class OfflineManager {
         const files = [];
         
         try {
+            // Detect the base path for GitHub Pages
+            const basePath = window.location.pathname.includes('/m113-reglementsbibliotek/') 
+                ? '/m113-reglementsbibliotek/' 
+                : '/';
+                
             // Get the search index to find all page files
-            const searchIndexResponse = await fetch(`/data/${manualId}-search-index.json`);
+            const searchIndexResponse = await fetch(`${basePath}data/${manualId}-search-index.json`);
             if (searchIndexResponse.ok) {
                 const searchIndex = await searchIndexResponse.json();
                 
@@ -305,7 +310,8 @@ class OfflineManager {
                 const uniquePaths = new Set();
                 searchIndex.pages.forEach(page => {
                     if (page.imagePath) {
-                        uniquePaths.add(`/${page.imagePath}`);
+                        // Use basePath for consistent URL construction
+                        uniquePaths.add(`${basePath}${page.imagePath}`);
                     }
                 });
                 
@@ -321,7 +327,14 @@ class OfflineManager {
 
         // If we couldn't get files from search index, try to estimate from known patterns
         if (files.length === 0) {
-            console.log(`Attempting to estimate page files for ${manualId}`);
+            if (window.debugLog) window.debugLog(`Attempting to estimate page files for ${manualId}`);
+            
+            // Detect the base path (for GitHub Pages subdirectories)
+            const basePath = window.location.pathname.includes('/m113-reglementsbibliotek/') 
+                ? '/m113-reglementsbibliotek/' 
+                : '/';
+            
+            if (window.debugLog) window.debugLog(`Using base path: ${basePath}`);
             
             // Try to fetch a few known page patterns to see what exists
             const possiblePages = [];
@@ -331,12 +344,12 @@ class OfflineManager {
                 for (let i = 1; i <= 400; i++) {
                     const pageNum = i.toString().padStart(2, '0');
                     for (let chapter = 1; chapter <= 9; chapter++) {
-                        possiblePages.push(`pages/${manualId}/HRN113_${chapter}-${pageNum}.png`);
+                        possiblePages.push(`${basePath}pages/${manualId}/HRN113_${chapter}-${pageNum}.png`);
                     }
                     // Add appendix pages
                     for (let appendix of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']) {
-                        possiblePages.push(`pages/${manualId}/HRN113_${appendix}-${pageNum}.png`);
-                        possiblePages.push(`pages/${manualId}/HRN113_${appendix}-${i}.png`);
+                        possiblePages.push(`${basePath}pages/${manualId}/HRN113_${appendix}-${pageNum}.png`);
+                        possiblePages.push(`${basePath}pages/${manualId}/HRN113_${appendix}-${i}.png`);
                     }
                 }
             }
@@ -345,7 +358,7 @@ class OfflineManager {
             if (manualId.startsWith('HRN737-')) {
                 for (let i = 1; i <= 200; i++) {
                     const pageNum = i.toString().padStart(2, '0');
-                    possiblePages.push(`pages/${manualId}/${manualId}-${pageNum}.png`);
+                    possiblePages.push(`${basePath}pages/${manualId}/${manualId}-${pageNum}.png`);
                 }
             }
             
