@@ -331,12 +331,12 @@ class OfflineManager {
                 for (let i = 1; i <= 400; i++) {
                     const pageNum = i.toString().padStart(2, '0');
                     for (let chapter = 1; chapter <= 9; chapter++) {
-                        possiblePages.push(`/pages/${manualId}/HRN113_${chapter}-${pageNum}.png`);
+                        possiblePages.push(`pages/${manualId}/HRN113_${chapter}-${pageNum}.png`);
                     }
                     // Add appendix pages
                     for (let appendix of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']) {
-                        possiblePages.push(`/pages/${manualId}/HRN113_${appendix}-${pageNum}.png`);
-                        possiblePages.push(`/pages/${manualId}/HRN113_${appendix}-${i}.png`);
+                        possiblePages.push(`pages/${manualId}/HRN113_${appendix}-${pageNum}.png`);
+                        possiblePages.push(`pages/${manualId}/HRN113_${appendix}-${i}.png`);
                     }
                 }
             }
@@ -345,7 +345,7 @@ class OfflineManager {
             if (manualId.startsWith('HRN737-')) {
                 for (let i = 1; i <= 200; i++) {
                     const pageNum = i.toString().padStart(2, '0');
-                    possiblePages.push(`/pages/${manualId}/${manualId}-${pageNum}.png`);
+                    possiblePages.push(`pages/${manualId}/${manualId}-${pageNum}.png`);
                 }
             }
             

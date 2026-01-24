@@ -9,37 +9,37 @@ const VERSION_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 
 // Core files that are always cached for offline functionality
 const CORE_FILES = [
-    '/',
-    '/index.html',
-    '/css/manual-styles.css',
-    '/js/app.js',
-    '/js/offline-manager.js',
-    '/favicon.svg',
-    '/favicon-16x16.svg',
-    '/manifest.json'
+    './',
+    './index.html',
+    './css/manual-styles.css',
+    './js/app.js',
+    './js/offline-manager.js',
+    './favicon.svg',
+    './favicon-16x16.svg',
+    './manifest.json'
 ];
 
 // Map of manual IDs to their required files
 const MANUAL_FILES = {
     'HRN113-001': [
-        '/HRN113-001.html',
-        '/data/HRN113-001-search-index.json',
-        '/data/HRN113-001-toc.json'
+        './HRN113-001.html',
+        './data/HRN113-001-search-index.json',
+        './data/HRN113-001-toc.json'
     ],
     'HRN113-002': [
-        '/HRN113-002.html',
-        '/data/HRN113-002-search-index.json',
-        '/data/HRN113-002-toc.json'
+        './HRN113-002.html',
+        './data/HRN113-002-search-index.json',
+        './data/HRN113-002-toc.json'
     ],
     'HRN737-012': [
-        '/HRN737-012.html',
-        '/data/HRN737-012-search-index.json',
-        '/data/HRN737-012-toc.json'
+        './HRN737-012.html',
+        './data/HRN737-012-search-index.json',
+        './data/HRN737-012-toc.json'
     ],
     'HRN737-018': [
-        '/HRN737-018.html',
-        '/data/HRN737-018-search-index.json',
-        '/data/HRN737-018-toc.json'
+        './HRN737-018.html',
+        './data/HRN737-018-search-index.json',
+        './data/HRN737-018-toc.json'
     ]
 };
 
@@ -91,7 +91,7 @@ self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
     
     // For manual pages, check if they should be served from cache
-    if (url.pathname.endsWith('.html') && url.pathname !== '/index.html') {
+    if (url.pathname.endsWith('.html') && !url.pathname.endsWith('/index.html') && url.pathname !== '/') {
         event.respondWith(handleManualRequest(event.request));
         return;
     }
@@ -111,7 +111,7 @@ self.addEventListener('fetch', event => {
             return fetch(event.request).catch(() => {
                 // If offline and no cache, return offline page for HTML requests
                 if (event.request.headers.get('accept').includes('text/html')) {
-                    return caches.match('/index.html');
+                    return caches.match('./index.html');
                 }
             });
         })
@@ -130,7 +130,7 @@ async function handleManualRequest(request) {
         return networkResponse;
     } catch (error) {
         // If offline and no cache, redirect to index
-        return caches.match('/index.html');
+        return caches.match('./index.html');
     }
 }
 
