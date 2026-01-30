@@ -567,6 +567,31 @@ body {
         gap: 10px;
     }
     
+    .search-container {
+        position: relative;
+        z-index: 1003;
+    }
+    
+    .search-input {
+        padding: 12px 45px 12px 18px;
+        font-size: 16px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+    }
+    
+    .clear-search-btn {
+        right: 12px;
+        font-size: 20px;
+        padding: 4px;
+    }
+    
     .welcome-title {
         font-size: 2em;
     }
@@ -603,46 +628,59 @@ body {
     
     /* Mobile search results improvements */
     .search-results-dropdown {
-        margin: 8px 5px 0;
-        left: 5px;
-        right: 5px;
-        background: rgba(52, 73, 94, 0.96);
-        border-radius: 12px;
-        max-height: calc(100vh - 140px);
+        margin: 12px 0 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: rgba(52, 73, 94, 0.98) !important;
+        border-radius: 0 !important;
+        max-height: calc(100vh - 180px) !important;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.4) !important;
+        border: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
     }
     
     .search-result-item {
-        padding: 16px 18px;
-        background: rgba(255, 255, 255, 0.03);
-        margin: 0 8px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        border-bottom: none;
+        padding: 20px 16px !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        margin-bottom: 1px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-shadow: none !important;
     }
     
     .search-result-item:first-child {
-        margin-top: 8px;
+        margin-top: 0 !important;
     }
     
     .search-result-item:last-child {
-        margin-bottom: 8px;
+        margin-bottom: 0 !important;
+        border-bottom: none !important;
     }
     
     .search-result-item:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: none !important;
+        box-shadow: none !important;
     }
     
     .search-result-context {
-        font-size: 0.95em;
-        line-height: 1.5;
-        margin-bottom: 8px;
+        font-size: 1.05em;
+        line-height: 1.6;
+        margin-bottom: 12px;
         color: #ecf0f1;
+        font-weight: 400;
     }
     
     .search-result-title {
-        font-size: 0.85em;
-        color: #7fb3d3;
-        opacity: 0.9;
+        font-size: 0.9em;
+        color: #85c1e9;
+        opacity: 1;
+        font-weight: 500;
+        padding-top: 4px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 8px;
     }
 }
 
@@ -779,10 +817,10 @@ body.index-page .container {
 .pdf-modal-content {
     background: #2c3e50;
     border-radius: 12px;
-    width: 90%;
-    max-width: 1000px;
-    height: 90%;
-    max-height: 800px;
+    width: 98%;
+    max-width: 1800px;
+    height: 96%;
+    max-height: 1200px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -836,8 +874,8 @@ body.index-page .container {
     }
     
     .pdf-modal-content {
-        width: 95%;
-        height: 85%;
+        width: 98%;
+        height: 92%;
     }
     
     .pdf-modal-header {
@@ -1214,5 +1252,22 @@ body.index-page .container {
     #connection-status {
         font-size: 13px;
         padding: 5px 14px;
+    }
+}
+
+/* Force full-width search results on mobile devices */
+@media (max-width: 768px), (max-width: 844px), (max-width: 900px) {
+    .search-results-dropdown {
+        position: fixed !important;
+        top: 70px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        max-width: none !important;
+        background: rgba(52, 73, 94, 0.98) !important;
+        border: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
     }
 }
