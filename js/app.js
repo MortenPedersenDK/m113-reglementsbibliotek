@@ -18,6 +18,7 @@ class ManualViewer {
         this.initializeElements();
         this.bindEvents();
         this.loadManualData();
+        this.initializeHashNavigation();
     }
 
     initializeElements() {
@@ -774,6 +775,7 @@ class ManualViewer {
         this.updateNavigation();
         this.updatePageInfo(page);
         this.expandChapterForPage(pageId);
+        this.updateUrlHash(page);
         
         // Close navigation after selecting a page
         this.closeNavigation();
@@ -1004,6 +1006,94 @@ class ManualViewer {
         setTimeout(() => {
             this.updateOfflineButtonStatus();
         }, 3000);
+    }
+
+    // Initialize hash-based navigation
+    initializeHashNavigation() {
+        // Listen for hash changes
+        window.addEventListener('hashchange', () => {
+            this.handleHashChange();
+        });
+        
+        // Check hash on initial load
+        setTimeout(() => {
+            this.handleHashChange();
+        }, 100); // Small delay to ensure data is loaded
+    }
+
+    // Handle hash changes
+    handleHashChange() {
+        const hash = window.location.hash.substring(1); // Remove the '#'
+        if (!hash) return;
+
+        // Parse the hash parameter
+        // Expected format: #page=1-05, #page=2-15, #page=C-26, #page=A-10 (chapter-page)
+        const match = hash.match(/page=([A-Za-z0-9]+)-(\d+)/);
+        if (match) {
+            const chapter = match[1];
+            const page = match[2];
+            this.navigateToPageByReference(chapter, page);
+        }
+    }
+
+    // Navigate to a page by chapter-page reference
+    navigateToPageByReference(chapter, pageNumber) {
+        if (!this.pages || this.pages.length === 0) {
+            // If pages aren't loaded yet, retry after a delay
+            setTimeout(() => {
+                this.navigateToPageByReference(chapter, pageNumber);
+            }, 200);
+            return;
+        }
+
+        // Find the page with matching chapter and page number
+        // Handle both numeric and letter chapters (A, B, etc.)
+        const targetPageIndex = this.pages.findIndex(page => {
+            const pageChapter = page.chapter.toString().toUpperCase();
+            const targetChapter = chapter.toString().toUpperCase();
+            const pagePage = page.page.toString().padStart(2, '0');
+            const targetPage = pageNumber.toString().padStart(2, '0');
+            
+            return pageChapter === targetChapter && pagePage === targetPage;
+        });
+
+        if (targetPageIndex !== -1) {
+            this.navigateToPage(targetPageIndex);
+        } else {
+            console.warn(`Page ${chapter}-${pageNumber} not found`);
+            // Try a more flexible search if exact match fails
+            const flexibleMatch = this.pages.findIndex(page => 
+                page.chapter.toString() === chapter.toString() && 
+                parseInt(page.page) === parseInt(pageNumber)
+            );
+            
+            if (flexibleMatch !== -1) {
+                this.navigateToPage(flexibleMatch);
+            }
+        }
+    }
+
+    // Update URL hash when navigating to a page (without triggering hashchange event)
+    updateUrlHash(page) {
+        if (page && page.chapter !== undefined && page.page !== undefined) {
+            const chapter = page.chapter.toString();
+            const pageNum = page.page.toString().padStart(2, '0');
+            const newHash = `#page=${chapter}-${pageNum}`;
+            
+            if (window.location.hash !== newHash) {
+                // Use replaceState to avoid adding to browser history for every page navigation
+                const newUrl = window.location.pathname + window.location.search + newHash;
+                window.history.replaceState(null, null, newUrl);
+            }
+        }
+    }
+
+    // Clear URL hash (when no specific page is selected)
+    clearUrlHash() {
+        if (window.location.hash) {
+            const newUrl = window.location.pathname + window.location.search;
+            window.history.replaceState(null, null, newUrl);
+        }
     }
     
     // Cleanup method to prevent memory leaks

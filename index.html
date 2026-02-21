@@ -52,6 +52,7 @@
         <div class="diverse-section">
             <div class="diverse-card">
                 <div class="diverse-title">Diverse</div>
+                <a href="hurtiginfo.html" class="pdf-link">Hurtig Info - PMV M113 G3+G4</a>
                 <a href="#" class="pdf-link" onclick="openPdfModal('pages/Syns-kontrolliste.pdf'); return false;">Syns-kontrolliste.pdf</a>
                 <a href="#" class="pdf-link" onclick="openPdfModal('pages/Syns-kontrolliste_M113_G3DK.pdf'); return false;">Syns-kontrolliste_G3DK.pdf</a>
             </div>
@@ -173,5 +174,38 @@
     
     <script src="js/offline-manager.js?v=3"></script>
     <script src="debug-status.js?v=2"></script>
+    <script>
+        // Deep linking functionality for index page
+        function initializeIndexDeepLinking() {
+            // Check if there's a hash parameter on page load
+            const hash = window.location.hash.substring(1); // Remove the '#'
+            if (!hash) return;
+
+            // Parse the hash parameter
+            // Expected format: #manual=HRN113-001&page=1-05
+            const params = new URLSearchParams(hash);
+            const manualId = params.get('manual');
+            const pageRef = params.get('page');
+
+            if (manualId) {
+                // Find the corresponding manual card
+                const manualCard = document.querySelector(`[data-manual-id="${manualId}"]`);
+                if (manualCard) {
+                    // Construct the URL with page parameter if provided
+                    let url = manualCard.href;
+                    if (pageRef) {
+                        url += `#page=${pageRef}`;
+                    }
+                    // Navigate to the manual
+                    window.location.href = url;
+                } else {
+                    console.warn(`Manual ${manualId} not found`);
+                }
+            }
+        }
+
+        // Initialize deep linking when page loads
+        document.addEventListener('DOMContentLoaded', initializeIndexDeepLinking);
+    </script>
 </body>
 </html>
