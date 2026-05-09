@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relæ- og sikringsbilleder - G4Div</title>
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="stylesheet" href="../../css/manual-styles.css">
+    <style>
+        .gallery-section {
+            margin-bottom: 32px;
+        }
+
+        .gallery-section h2 {
+            font-size: 1.2em;
+            color: #bdc3c7;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gallery-item a {
+            display: block;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .gallery-item img:hover {
+            opacity: 0.88;
+        }
+
+        .gallery-item figcaption {
+            padding: 8px 12px;
+            font-size: 0.88em;
+            color: #bdc3c7;
+            text-align: center;
+        }
+
+        .relay-nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="relay-page">
+    <div class="relay-container">
+        <div class="relay-header">
+            <h1>Relæ- og sikringsbilleder</h1>
+            <p>PMV M113 G4 DK – Billeder af relæboks og sikringsboks</p>
+        </div>
+
+        <div class="relay-nav-links">
+            <a href="index.html" class="relay-back-link">← Tilbage til G4Div</a>
+            <a href="relays.html" class="relay-back-link">Relæoversigt</a>
+            <a href="fuses.html" class="relay-back-link">Sikringsoversigt</a>
+        </div>
+
+        <div class="gallery-section">
+            <div class="gallery-grid">
+                <figure class="gallery-item">
+                    <a href="img/Relay1.jpeg" target="_blank">
+                        <img src="img/Relay1.jpeg" alt="Relæboks – billede 1" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/Relay2.jpeg" target="_blank">
+                        <img src="img/Relay2.jpeg" alt="Relæboks – billede 2" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/Relay3.jpeg" target="_blank">
+                        <img src="img/Relay3.jpeg" alt="Relæboks – billede 3" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/Relay4.jpeg" target="_blank">
+                        <img src="img/Relay4.jpeg" alt="Relæboks – billede 4" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/Relay5.jpeg" target="_blank">
+                        <img src="img/Relay5.jpeg" alt="Relæboks – billede 5" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/Relay6.jpeg" target="_blank">
+                        <img src="img/Relay6.jpeg" alt="Relæboks – billede 6" loading="lazy">
+                    </a>
+                </figure>
+            </div>
+            <div class="gallery-grid">
+                <figure class="gallery-item">
+                    <a href="img/F3-F22.jpeg" target="_blank">
+                        <img src="img/F3-F22.jpeg" alt="Sikringsboks – F3 til F22" loading="lazy">
+                    </a>
+                </figure>
+                <figure class="gallery-item">
+                    <a href="img/F11-F19.jpeg" target="_blank">
+                        <img src="img/F11-F19.jpeg" alt="Sikringsboks – F11 til F19" loading="lazy">
+                    </a>
+                </figure>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

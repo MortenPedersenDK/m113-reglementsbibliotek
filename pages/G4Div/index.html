@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G3/G4 Diverse – PMV M113 G3/G4 DK</title>
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="stylesheet" href="../../css/manual-styles.css">
+    <style>
+        .g4-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .g4-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px 22px;
+            text-decoration: none;
+            color: #ecf0f1;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .g4-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-2px);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .g4-card-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #ffd166;
+            margin-bottom: 6px;
+        }
+
+        .g4-card-desc {
+            font-size: 0.9em;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
+
+        .g4-card-arrow {
+            margin-top: 14px;
+            font-size: 0.85em;
+            color: #3498db;
+        }
+
+        @media (max-width: 600px) {
+            .g4-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="relay-page">
+    <div class="relay-container">
+        <div class="relay-header">
+            <h1>G3/G4 Diverse</h1>
+            <p>PMV M113 G3/G4 DK – Oversigt over sektioner</p>
+        </div>
+
+        <a href="../../index.html" class="relay-back-link">← Tilbage til Forside</a>
+
+        <nav class="g4-nav" aria-label="G3/G4 Diverse sektioner">
+            <a href="hurtiginfo.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Hurtig Info</div>
+                    <div class="g4-card-desc">Vigtige data lige ved hånden for PMV M113 G3+G4.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+            <a href="relays.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Relæoversigt</div>
+                    <div class="g4-card-desc">Oversigt over alle relæer (K1–K34) i relæboksen.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+            <a href="fuses.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Sikringsoversigt</div>
+                    <div class="g4-card-desc">Oversigt over alle sikringer (F1–F23 m.fl.) i sikringsboksen.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+            <a href="relaysfuses.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Billeder – Relæ &amp; Sikring</div>
+                    <div class="g4-card-desc">Fotogalleri af relæer og sikringer.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+            <a href="SensorsTransmission.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Sensorer i Transmission</div>
+                    <div class="g4-card-desc">Fotogalleri af sensorer i transmission.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+            <a href="SensorsEngine.html" class="g4-card">
+                <div>
+                    <div class="g4-card-title">Sensorer i Motor</div>
+                    <div class="g4-card-desc">Fotogalleri af sensorer ved motor.</div>
+                </div>
+                <div class="g4-card-arrow">Gå til siden →</div>
+            </a>
+        </nav>
+    </div>
+</body>
+</html>

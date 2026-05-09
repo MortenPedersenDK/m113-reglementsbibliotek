@@ -786,6 +786,7 @@ body.index-page .container {
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     border: 1px solid rgba(52, 152, 219, 0.3);
     display: inline-block;
+    margin: 8px;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
 }
@@ -1252,6 +1253,142 @@ body.index-page .container {
     #connection-status {
         font-size: 13px;
         padding: 5px 14px;
+    }
+}
+
+/* ── Relay / info-tabel (bruges i G4Div/relays.html) ─────────────────── */
+.relay-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+    color: #ecf0f1;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px 10px;
+}
+
+.relay-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #34495e;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.relay-header {
+    text-align: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 16px;
+}
+
+.relay-header h1 {
+    font-size: 2em;
+    margin-bottom: 8px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.relay-header p {
+    font-size: 1em;
+    color: #bdc3c7;
+}
+
+.relay-back-link {
+    display: inline-flex;
+    align-items: center;
+    background: #3498db;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.relay-back-link:hover {
+    background: #2980b9;
+    transform: translateX(-2px);
+    color: #fff;
+    text-decoration: none;
+}
+
+.relay-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+}
+
+.relay-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+.relay-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+    line-height: 1.35;
+}
+
+.relay-table tr:last-child td {
+    border-bottom: none;
+}
+
+.relay-table tr:hover td {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.relay-table td.relay-id {
+    color: #ffd166;
+    font-weight: 700;
+    white-space: nowrap;
+    width: 68px;
+    min-width: 60px;
+    font-size: 1em;
+}
+
+.relay-table td.relay-desc {
+    color: #ecf0f1;
+}
+
+.relay-table tr:nth-child(even) td {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.relay-table tr:nth-child(even):hover td {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 768px) {
+    .relay-page {
+        padding: 10px 5px;
+    }
+
+    .relay-container {
+        padding: 14px;
+    }
+
+    .relay-header h1 {
+        font-size: 1.6em;
+    }
+
+    .relay-back-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .relay-table td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    .relay-table td.relay-id {
+        width: 54px;
+        min-width: 48px;
     }
 }
 

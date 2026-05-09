@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hurtig Info - PMV M113 G3+G4</title>
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="../../favicon-16x16.svg">
+    <link rel="alternate icon" href="../../favicon.ico">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #34495e;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            color: #bdc3c7;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            background: #3498db;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            background: #2980b9;
+            transform: translateX(-2px);
+        }
+
+        .back-link::before {
+            content: "← ";
+            margin-right: 8px;
+        }
+
+        .section {
+            background: #2c3e50;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .section h2 {
+            color: #3498db;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2::before {
+            content: "🔧";
+            margin-right: 10px;
+            font-size: 0.8em;
+        }
+
+        .subsection {
+            background: #34495e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .subsection h3 {
+            color: #e74c3c;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subsection h3::before {
+            content: "📋";
+            margin-right: 8px;
+            font-size: 0.8em;
+        }
+
+        .content {
+            font-size: 1em;
+            line-height: 1.7;
+        }
+
+        .content ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content li {
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .measurement {
+            background: #27ae60;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .reference-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .reference-link:hover {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+
+        .reference-link::after {
+            content: " →";
+            margin-left: 5px;
+        }
+
+
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px 5px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section h2 {
+                font-size: 1.4em;
+            }
+
+            .subsection h3 {
+                font-size: 1.2em;
+            }
+
+            .back-link {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .reference-link {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .section {
+                background: #2c3e50;
+            }
+            
+            .subsection {
+                background: #34495e;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hurtig Info</h1>
+            <p>PMV M113 G3+G4 - Vigtige data lige ved hånden</p>
+        </div>
+
+        <a href="index.html" class="back-link">Tilbage til G4Div</a>
+
+        <div class="section">
+            <h2>Gummibælte</h2>
+
+            <div class="subsection">
+                <h3>Momentspænding hjul</h3>
+                <div class="content">
+                    <ul>
+                        <li>Drivhjul: <span class="measurement">285 Nm</span></li>
+                        <li>Vejhjul: <span class="measurement">210 Nm</span></li>
+                        <li>Justerhjul: <span class="measurement">210 Nm</span></li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-03" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kontrol af bæltespænding</h3>
+                <div class="content">
+                    <ul>
+                        <li>Rul en vognlængde baglæns, sæt i neutral og lad PMV rulle til stillestående</li>
+                        <li>Spænd snor ud over hele bæltet</li>
+                        <li>Afstand ml. bælte og snor ml. 3. og 4. vejhjul = <span class="measurement">51 mm</span></li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-26" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kontrol af justercylinder</h3>
+                <div class="content">
+                    <ul>
+                        <li>Monter snor/elastik på stempel helt op af cylinder</li>
+                        <li>Kør 10-15 km/t og foretag skarpe drej over 150m</li>
+                        <li>Kontroller stempel ikke har bevæget sig mere end <span class="measurement">5mm</span></li>
+                        <li>Kontroller nitrogenlækager v. påfyldningsventil og ml. cylinder og stempel</li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-35" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Drivhjul</h3>
+                <div class="content">
+                    <ul>
+                        <li>Der må maks. mangle <span class="measurement">3</span> på hinanden følgende tænder og <span class="measurement">6</span> på hele hjulet</li>
+                        <li>Der må ikke mangle tænder overfor hinanden</li>
+                        <li>Hver drivtand skal min. være <span class="measurement">16 mm</span> bred</li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-04" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Justerhjul</h3>
+                <div class="content">
+                    <p>Se C.5.2.2.2 i reglement.</p>
+                    <a href="../../HRN113-002.html#page=C-07" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Slitage på bælte</h3>
+                <div class="content">
+                    <ul>
+                        <li>Trædepude på bælte min. <span class="measurement">13 mm</span></li>
+                        <li>Langsgående revner maks. <span class="measurement">30 cm</span></li>
+                        <li>Maks. <span class="measurement">6</span> synlige wiretråde på hele bæltet</li>
+                        <li>Maks. en synlig wire i siden af bælte, maks. <span class="measurement">2 meter</span> lang (G3 1,95m)</li>
+                        <li>Driv- og styretapper: min. <span class="measurement">45mm</span></li>
+                        <li>Maks. <span class="measurement">3</span> mgl. styretapper efter hinanden ELLER <span class="measurement">10</span> på hele bæltet</li>
+                        <li>Maks. <span class="measurement">3</span> mgl. styretapper efter hinanden OG <span class="measurement">6</span> på hele bæltet</li>
+                        <li>Maks. <span class="measurement">6</span> beskadigede styretapper efter hinanden</li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-29" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Beskadigelse af bælte</h3>
+                <div class="content">
+                    <ul>
+                        <li>Flænger maks. <span class="measurement">25%</span> af bæltets bredde</li>
+                        <li>Synlige fibre på inderside af bæltet i maks. <span class="measurement">20%</span> af længden</li>
+                        <li>Metalafstiver på profil maks. <span class="measurement">20%</span> (Figur C-52a)</li>
+                        <li>Synlige wiretråde, maks <span class="measurement">20</span> tråde synlige på en profil (Figure C-52b)</li>
+                    </ul>
+                    <a href="../../HRN113-002.html#page=C-33" class="reference-link">Se reglement</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+            <p style="color: #bdc3c7; font-size: 0.95em;">
+                Denne hurtigguide er baseret på gældende reglementer.<br>
+                Kontakt altid de fulde reglementer for detaljerede procedurer og specifikationer.
+            </p>
+            <a href="index.html" class="back-link" style="margin-top: 15px;">Tilbage til G4Div</a>
+        </div>
+    </div>
+</body>
+</html>
